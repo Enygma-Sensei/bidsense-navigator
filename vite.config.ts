@@ -12,4 +12,11 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    server: {
+      // The v0 sandbox preview proxies port 5173, while the Lovable config
+      // defaults to 8080. Outside a Lovable sandbox the user config wins.
+      port: Number(process.env.DEV_PORT) || 5173,
+    },
+  },
 });
