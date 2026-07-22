@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { ChevronDown, ShieldCheck, Scale } from "lucide-react";
 
-import { isoStandards, legalRefs } from "../lib/iso-standards";
+import { isoStandards, legalRefs, type IsoStandard } from "../lib/iso-standards";
 
 export const Route = createFileRoute("/compliance")({
   head: () => ({
@@ -29,13 +29,7 @@ function Compliance() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {isoStandards.map((s) => (
-            <div key={s.code} className="rounded-lg border border-border bg-card p-4">
-              <div className="flex items-baseline gap-2">
-                <span className="font-bold text-gold">{s.code}</span>
-                <span className="text-sm font-semibold">{s.title}</span>
-              </div>
-              <p className="text-xs text-muted-foreground mt-1">{s.focus}</p>
-            </div>
+            <IsoCard key={s.code} s={s} />
           ))}
         </div>
       </section>
@@ -63,6 +57,40 @@ function LegalItem({ title, body }: { title: string; body: string }) {
         <ChevronDown className={`h-4 w-4 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
       {open && <div className="px-4 pb-4 text-sm text-muted-foreground">{body}</div>}
+    </div>
+  );
+}
+
+function IsoCard({ s }: { s: IsoStandard }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="rounded-lg border border-border bg-card">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="w-full flex items-start justify-between gap-3 p-4 text-left"
+        aria-expanded={open}
+      >
+        <div>
+          <div className="flex items-baseline gap-2">
+            <span className="font-bold text-gold">{s.code}</span>
+            <span className="text-sm font-semibold">{s.title}</span>
+          </div>
+          <p className="text-xs text-muted-foreground mt-1">{s.focus}</p>
+        </div>
+        <ChevronDown className={`h-4 w-4 mt-1 text-muted-foreground transition-transform shrink-0 ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open && (
+        <div className="px-4 pb-4 space-y-2 border-t border-border pt-3">
+          <div>
+            <div className="text-[10px] uppercase tracking-widest text-gold mb-1">In plain English</div>
+            <p className="text-sm text-foreground">{s.plain}</p>
+          </div>
+          <div>
+            <div className="text-[10px] uppercase tracking-widest text-gold mb-1">Example</div>
+            <p className="text-sm text-muted-foreground">{s.example}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
