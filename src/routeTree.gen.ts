@@ -13,11 +13,18 @@ import { Route as SimulatorRouteImport } from './routes/simulator'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as PartnerPricingRouteImport } from './routes/partner-pricing'
+import { Route as NewsRouteImport } from './routes/news'
+import { Route as MigrationRouteImport } from './routes/migration'
+import { Route as LicensingRouteImport } from './routes/licensing'
+import { Route as FinanceRouteImport } from './routes/finance'
 import { Route as ComplianceRouteImport } from './routes/compliance'
+import { Route as ChatRouteImport } from './routes/chat'
 import { Route as CatalogueRouteImport } from './routes/catalogue'
 import { Route as CartRouteImport } from './routes/cart'
+import { Route as AttachmentsRouteImport } from './routes/attachments'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPipelineRouteImport } from './routes/api/pipeline'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const SimulatorRoute = SimulatorRouteImport.update({
   id: '/simulator',
@@ -39,9 +46,34 @@ const PartnerPricingRoute = PartnerPricingRouteImport.update({
   path: '/partner-pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MigrationRoute = MigrationRouteImport.update({
+  id: '/migration',
+  path: '/migration',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LicensingRoute = LicensingRouteImport.update({
+  id: '/licensing',
+  path: '/licensing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FinanceRoute = FinanceRouteImport.update({
+  id: '/finance',
+  path: '/finance',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ComplianceRoute = ComplianceRouteImport.update({
   id: '/compliance',
   path: '/compliance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CatalogueRoute = CatalogueRouteImport.update({
@@ -54,6 +86,11 @@ const CartRoute = CartRouteImport.update({
   path: '/cart',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AttachmentsRoute = AttachmentsRouteImport.update({
+  id: '/attachments',
+  path: '/attachments',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -64,86 +101,140 @@ const ApiPipelineRoute = ApiPipelineRouteImport.update({
   path: '/api/pipeline',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/attachments': typeof AttachmentsRoute
   '/cart': typeof CartRoute
   '/catalogue': typeof CatalogueRoute
+  '/chat': typeof ChatRoute
   '/compliance': typeof ComplianceRoute
+  '/finance': typeof FinanceRoute
+  '/licensing': typeof LicensingRoute
+  '/migration': typeof MigrationRoute
+  '/news': typeof NewsRoute
   '/partner-pricing': typeof PartnerPricingRoute
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
   '/simulator': typeof SimulatorRoute
+  '/api/chat': typeof ApiChatRoute
   '/api/pipeline': typeof ApiPipelineRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/attachments': typeof AttachmentsRoute
   '/cart': typeof CartRoute
   '/catalogue': typeof CatalogueRoute
+  '/chat': typeof ChatRoute
   '/compliance': typeof ComplianceRoute
+  '/finance': typeof FinanceRoute
+  '/licensing': typeof LicensingRoute
+  '/migration': typeof MigrationRoute
+  '/news': typeof NewsRoute
   '/partner-pricing': typeof PartnerPricingRoute
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
   '/simulator': typeof SimulatorRoute
+  '/api/chat': typeof ApiChatRoute
   '/api/pipeline': typeof ApiPipelineRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/attachments': typeof AttachmentsRoute
   '/cart': typeof CartRoute
   '/catalogue': typeof CatalogueRoute
+  '/chat': typeof ChatRoute
   '/compliance': typeof ComplianceRoute
+  '/finance': typeof FinanceRoute
+  '/licensing': typeof LicensingRoute
+  '/migration': typeof MigrationRoute
+  '/news': typeof NewsRoute
   '/partner-pricing': typeof PartnerPricingRoute
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
   '/simulator': typeof SimulatorRoute
+  '/api/chat': typeof ApiChatRoute
   '/api/pipeline': typeof ApiPipelineRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/attachments'
     | '/cart'
     | '/catalogue'
+    | '/chat'
     | '/compliance'
+    | '/finance'
+    | '/licensing'
+    | '/migration'
+    | '/news'
     | '/partner-pricing'
     | '/pipeline'
     | '/settings'
     | '/simulator'
+    | '/api/chat'
     | '/api/pipeline'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/attachments'
     | '/cart'
     | '/catalogue'
+    | '/chat'
     | '/compliance'
+    | '/finance'
+    | '/licensing'
+    | '/migration'
+    | '/news'
     | '/partner-pricing'
     | '/pipeline'
     | '/settings'
     | '/simulator'
+    | '/api/chat'
     | '/api/pipeline'
   id:
     | '__root__'
     | '/'
+    | '/attachments'
     | '/cart'
     | '/catalogue'
+    | '/chat'
     | '/compliance'
+    | '/finance'
+    | '/licensing'
+    | '/migration'
+    | '/news'
     | '/partner-pricing'
     | '/pipeline'
     | '/settings'
     | '/simulator'
+    | '/api/chat'
     | '/api/pipeline'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AttachmentsRoute: typeof AttachmentsRoute
   CartRoute: typeof CartRoute
   CatalogueRoute: typeof CatalogueRoute
+  ChatRoute: typeof ChatRoute
   ComplianceRoute: typeof ComplianceRoute
+  FinanceRoute: typeof FinanceRoute
+  LicensingRoute: typeof LicensingRoute
+  MigrationRoute: typeof MigrationRoute
+  NewsRoute: typeof NewsRoute
   PartnerPricingRoute: typeof PartnerPricingRoute
   PipelineRoute: typeof PipelineRoute
   SettingsRoute: typeof SettingsRoute
   SimulatorRoute: typeof SimulatorRoute
+  ApiChatRoute: typeof ApiChatRoute
   ApiPipelineRoute: typeof ApiPipelineRoute
 }
 
@@ -177,11 +268,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PartnerPricingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/migration': {
+      id: '/migration'
+      path: '/migration'
+      fullPath: '/migration'
+      preLoaderRoute: typeof MigrationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/licensing': {
+      id: '/licensing'
+      path: '/licensing'
+      fullPath: '/licensing'
+      preLoaderRoute: typeof LicensingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/finance': {
+      id: '/finance'
+      path: '/finance'
+      fullPath: '/finance'
+      preLoaderRoute: typeof FinanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/compliance': {
       id: '/compliance'
       path: '/compliance'
       fullPath: '/compliance'
       preLoaderRoute: typeof ComplianceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/catalogue': {
@@ -198,6 +324,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CartRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/attachments': {
+      id: '/attachments'
+      path: '/attachments'
+      fullPath: '/attachments'
+      preLoaderRoute: typeof AttachmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -212,18 +345,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPipelineRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AttachmentsRoute: AttachmentsRoute,
   CartRoute: CartRoute,
   CatalogueRoute: CatalogueRoute,
+  ChatRoute: ChatRoute,
   ComplianceRoute: ComplianceRoute,
+  FinanceRoute: FinanceRoute,
+  LicensingRoute: LicensingRoute,
+  MigrationRoute: MigrationRoute,
+  NewsRoute: NewsRoute,
   PartnerPricingRoute: PartnerPricingRoute,
   PipelineRoute: PipelineRoute,
   SettingsRoute: SettingsRoute,
   SimulatorRoute: SimulatorRoute,
+  ApiChatRoute: ApiChatRoute,
   ApiPipelineRoute: ApiPipelineRoute,
 }
 export const routeTree = rootRouteImport
