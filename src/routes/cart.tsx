@@ -1,11 +1,23 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { AlertTriangle, Lightbulb, ShoppingCart, Trash2, Plus, ArrowRight } from "lucide-react";
+import {
+  AlertTriangle,
+  Lightbulb,
+  ShoppingCart,
+  Trash2,
+  Plus,
+  ArrowRight,
+  CreditCard,
+  Landmark,
+  Wallet,
+  Globe,
+} from "lucide-react";
 import { useMemo } from "react";
 
 import { services, findService } from "../lib/services-catalog";
 import { useCart } from "../lib/cart-store";
 import { calculateBundlePrice, gbp } from "../lib/pricing-engine";
 import { evaluateCartRules } from "../lib/rules-engine";
+import { useViewerRole, canSeeOwnerFinancials } from "../lib/viewer-role";
 
 export const Route = createFileRoute("/cart")({
   head: () => ({
@@ -19,6 +31,8 @@ export const Route = createFileRoute("/cart")({
 
 function Cart() {
   const cart = useCart();
+  const role = useViewerRole((r) => r.role);
+  const showInternal = canSeeOwnerFinancials(role);
   const selected = useMemo(
     () => cart.ids.map((id) => findService(id)).filter((s): s is (typeof services)[number] => Boolean(s)),
     [cart.ids],
@@ -76,9 +90,13 @@ function Cart() {
                 <div className="font-semibold text-sm leading-snug">{s.name}</div>
                 <div className="text-[11px] text-muted-foreground mt-1">{s.iso_clause}</div>
                 <div className="mt-2 flex gap-4 text-xs flex-wrap">
-                  <span>List {gbp(s.price)}</span>
-                  <span className="text-gold">Floor {gbp(s.floor)}</span>
-                  <span className="text-muted-foreground">AI {gbp(s.ai_cost)}</span>
+                  <span>Price {gbp(s.price)}</span>
+                  {showInternal && (
+                    <>
+                      <span className="text-gold">Floor {gbp(s.floor)}</span>
+                      <span className="text-muted-foreground">AI {gbp(s.ai_cost)}</span>
+                    </>
+                  )}
                 </div>
               </div>
               <button onClick={() => cart.remove(s.id)} className="text-muted-foreground hover:text-destructive" aria-label="Remove">
@@ -92,16 +110,21 @@ function Cart() {
       <aside className="lg:sticky lg:top-6 self-start rounded-lg border border-gold/40 bg-card p-6 space-y-4">
         <div className="text-xs uppercase tracking-widest text-gold">Bundle Summary</div>
         <Row label="Normal total" value={gbp(calc.normalTotal)} />
-        <Row label="Protected floor" value={gbp(calc.floorTotal)} gold />
-        <Row label="AI cost" value={gbp(calc.aiCostTotal)} />
-        <Row label="Margin pool" value={gbp(calc.marginPool)} />
+        {showInternal && <Row label="Protected floor" value={gbp(calc.floorTotal)} gold />}
+        {showInternal && <Row label="AI cost" value={gbp(calc.aiCostTotal)} />}
+        {showInternal && <Row label="Margin pool" value={gbp(calc.marginPool)} />}
         <Row label={`Bundle discount (${(calc.discountRate * 100).toFixed(0)}%)`} value={`− ${gbp(calc.discountAmount)}`} />
         <div className="pt-3 border-t border-border">
           <div className="text-xs uppercase tracking-widest text-muted-foreground">Final price</div>
           <div className="text-3xl font-bold text-gold mt-1">{gbp(calc.finalPrice)}</div>
           <div className="text-xs text-muted-foreground mt-1">Client saves {gbp(calc.savings)} ({calc.savingsPercent.toFixed(1)}%)</div>
         </div>
-        <div className="text-[11px] text-gold border border-gold/30 rounded p-2 bg-gold/5">✓ Subcontractor floor intact. Discount applied only to margin pool.</div>
+        {showInternal && (
+          <div className="text-[11px] text-gold border border-gold/30 rounded p-2 bg-gold/5">
+            ✓ Subcontractor floor intact. Discount applied only to margin pool.
+          </div>
+        )}
+        <PaymentOptions total={calc.finalPrice} />
         <button onClick={() => cart.clear()} className="w-full text-xs text-muted-foreground hover:text-destructive">Clear cart</button>
       </aside>
     </div>
@@ -114,5 +137,72 @@ function Row({ label, value, gold }: { label: string; value: string; gold?: bool
       <span className="text-muted-foreground">{label}</span>
       <span className={gold ? "text-gold font-semibold" : "font-medium"}>{value}</span>
     </div>
+  );
+}
+
+// Payment options visible to every buyer role in the cart. UK-market and
+// international rails are grouped so buyers see instantly what settles
+// where. Selecting a rail simulates handing off to that provider — the
+// actual charge, refund and reconciliation flow is wired in when the
+// Stripe / PayPal / GoCardless server endpoints are provisioned.
+function PaymentOptions({ total }: { total: number }) {
+  const uk = [
+    { key: "card-uk", label: "Card (Visa / Mastercard / Amex)", provider: "Stripe", icon: CreditCard },
+    { key: "apple-google-pay", label: "Apple Pay & Google Pay", provider: "Stripe wallets", icon: Wallet },
+    { key: "bacs-fps", label: "Bank transfer — Faster Payments / Bacs", provider: "GoCardless", icon: Landmark },
+    { key: "open-banking", label: "Open Banking pay-by-bank", provider: "TrueLayer", icon: Landmark },
+  ];
+  const intl = [
+    { key: "card-intl", label: "International cards (multi-currency)", provider: "Stripe", icon: CreditCard },
+    { key: "paypal", label: "PayPal / PayPal Business", provider: "PayPal", icon: Wallet },
+    { key: "sepa", label: "SEPA direct debit (EUR)", provider: "Stripe", icon: Landmark },
+    { key: "wise", label: "International bank transfer (Wise)", provider: "Wise Business", icon: Globe },
+  ];
+  return (
+    <div className="pt-3 border-t border-border space-y-2">
+      <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Payment options</div>
+      <div className="space-y-1">
+        <div className="text-[10px] font-semibold text-gold">UK market</div>
+        {uk.map((o) => (
+          <PayButton key={o.key} label={o.label} provider={o.provider} icon={o.icon} total={total} />
+        ))}
+      </div>
+      <div className="space-y-1 pt-1">
+        <div className="text-[10px] font-semibold text-gold">International</div>
+        {intl.map((o) => (
+          <PayButton key={o.key} label={o.label} provider={o.provider} icon={o.icon} total={total} />
+        ))}
+      </div>
+      <p className="text-[10px] text-muted-foreground pt-1">
+        VAT calculated at checkout. Invoices are UK-tax-compliant and emailed for every completed order.
+      </p>
+    </div>
+  );
+}
+
+function PayButton({
+  label,
+  provider,
+  icon: Icon,
+  total,
+}: {
+  label: string;
+  provider: string;
+  icon: typeof CreditCard;
+  total: number;
+}) {
+  return (
+    <button
+      onClick={() =>
+        alert(
+          `Handing ${gbp(total)} to ${provider}.\n\nWhen the ${provider} server endpoint is provisioned, this button will redirect straight to that hosted checkout.`,
+        )
+      }
+      className="w-full flex items-center gap-2 text-left text-xs px-2 py-1.5 rounded border border-border hover:border-gold hover:text-gold transition-colors"
+    >
+      <Icon className="h-3.5 w-3.5 shrink-0" />
+      <span className="flex-1">{label}</span>
+      <span className="text-[9px] text-muted-foreground">{provider}</span>
+    </button>
   );
 }
