@@ -38,7 +38,7 @@ function PolicyPage() {
       </div>
       <p className="text-sm text-muted-foreground">{policy.intro}</p>
       <div className="space-y-4">
-        {policy.sections.map((s) => (
+        {policy.sections.map((s: { heading: string; body: string }) => (
           <section key={s.heading}>
             <h3 className="text-sm font-semibold text-gold">{s.heading}</h3>
             <p className="text-sm mt-1 leading-relaxed whitespace-pre-line">{s.body}</p>

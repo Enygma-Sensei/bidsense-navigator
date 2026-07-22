@@ -57,7 +57,7 @@ function Panel() {
         parsed.kind === "text"
           ? parsed.text
           : parsed.kind === "spreadsheet"
-            ? parsed.sheets
+            ? (parsed.sheets ?? [])
                 .map((s) => `# Sheet: ${s.name}\n${s.rows.map((r) => r.join("\t")).join("\n")}`)
                 .join("\n\n")
             : parsed.kind === "markdown" || parsed.kind === "json"
