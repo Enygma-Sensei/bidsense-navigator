@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { services, categories, findService, type Service, type ServiceCategory } from "../lib/services-catalog";
 import { useCart } from "../lib/cart-store";
 import { gbp } from "../lib/pricing-engine";
+import { useViewerRole, canSeeOwnerFinancials } from "../lib/viewer-role";
 
 export const Route = createFileRoute("/catalogue")({
   head: () => ({
@@ -96,6 +97,8 @@ function Catalogue() {
 
 function ServiceCard({ s, inCart, onToggle }: { s: Service; inCart: boolean; onToggle: () => void }) {
   const [open, setOpen] = useState(false);
+  const role = useViewerRole((r) => r.role);
+  const showOwner = canSeeOwnerFinancials(role);
   return (
     <div className="rounded-lg border border-border bg-card p-5 flex flex-col gap-3">
       <div className="flex items-start justify-between gap-3">
@@ -132,6 +135,7 @@ function ServiceCard({ s, inCart, onToggle }: { s: Service; inCart: boolean; onT
         <Lock className="h-3 w-3 text-gold" />
         <span>{s.iso_clause}</span>
       </div>
+      {showOwner && <OwnerBreakdown s={s} />}
       <div className="flex items-end justify-between">
         <div>
           <div className="text-2xl font-bold">
@@ -149,6 +153,46 @@ function ServiceCard({ s, inCart, onToggle }: { s: Service; inCart: boolean; onT
           {inCart ? "Added" : "Add"}
         </button>
       </div>
+    </div>
+  );
+}
+
+function OwnerBreakdown({ s }: { s: Service }) {
+  // Owner-only internal-use view: shows exactly where every pound of the
+  // client price lands. Never rendered for client / reseller / PSL roles.
+  const clientPays = s.price;
+  const subcontractor = s.floor;           // protected floor paid to the subcontractor
+  const aiCost = s.ai_cost;                // pass-through infrastructure cost
+  const ownerTakes = Math.max(0, clientPays - subcontractor - aiCost);
+  const ownerMarginPct = clientPays > 0 ? (ownerTakes / clientPays) * 100 : 0;
+  const displacementPct = typeof s.displacement === "number" ? Math.round(s.displacement * 100) : null;
+  return (
+    <div className="rounded-md border border-gold/50 bg-gold/5 p-3 text-[11px] space-y-1.5">
+      <div className="flex items-center justify-between">
+        <span className="uppercase tracking-widest text-gold font-semibold text-[10px]">
+          Owner · internal only
+        </span>
+        <span className="text-[10px] text-muted-foreground">Do not share with clients</span>
+      </div>
+      <Row label="Client pays" value={gbp(clientPays)} strong />
+      <Row label="Subcontractor floor" value={s.floor > 0 ? gbp(subcontractor) : "—"} />
+      <Row label="AI / infra cost" value={gbp(aiCost)} />
+      <Row label="Owner take" value={gbp(ownerTakes)} accent />
+      <Row label="Owner margin" value={`${ownerMarginPct.toFixed(1)}%`} />
+      <Row label="Manual comparator" value={gbp(s.manual_cost)} />
+      {displacementPct !== null && (
+        <Row label="AI displacement" value={`${displacementPct}%`} />
+      )}
+      {s.period && <Row label="Billing period" value={`per ${s.period}`} />}
+    </div>
+  );
+}
+
+function Row({ label, value, strong, accent }: { label: string; value: string; strong?: boolean; accent?: boolean }) {
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-muted-foreground">{label}</span>
+      <span className={accent ? "text-gold font-semibold" : strong ? "font-semibold" : ""}>{value}</span>
     </div>
   );
 }
