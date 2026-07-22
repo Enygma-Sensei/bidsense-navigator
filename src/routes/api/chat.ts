@@ -3,7 +3,6 @@ import { streamText } from "ai";
 
 import {
   createLovableAiGatewayProvider,
-  getLovableAiGatewayResponseHeaders,
   getLovableAiGatewayRunId,
   withLovableAiGatewayRunIdHeader,
 } from "../../lib/ai-gateway.server";
