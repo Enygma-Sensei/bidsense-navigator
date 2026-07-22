@@ -9,38 +9,155 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SimulatorRouteImport } from './routes/simulator'
+import { Route as PipelineRouteImport } from './routes/pipeline'
+import { Route as ComplianceRouteImport } from './routes/compliance'
+import { Route as CatalogueRouteImport } from './routes/catalogue'
+import { Route as CartRouteImport } from './routes/cart'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPipelineRouteImport } from './routes/api/pipeline'
 
+const SimulatorRoute = SimulatorRouteImport.update({
+  id: '/simulator',
+  path: '/simulator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PipelineRoute = PipelineRouteImport.update({
+  id: '/pipeline',
+  path: '/pipeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComplianceRoute = ComplianceRouteImport.update({
+  id: '/compliance',
+  path: '/compliance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CatalogueRoute = CatalogueRouteImport.update({
+  id: '/catalogue',
+  path: '/catalogue',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CartRoute = CartRouteImport.update({
+  id: '/cart',
+  path: '/cart',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPipelineRoute = ApiPipelineRouteImport.update({
+  id: '/api/pipeline',
+  path: '/api/pipeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cart': typeof CartRoute
+  '/catalogue': typeof CatalogueRoute
+  '/compliance': typeof ComplianceRoute
+  '/pipeline': typeof PipelineRoute
+  '/simulator': typeof SimulatorRoute
+  '/api/pipeline': typeof ApiPipelineRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cart': typeof CartRoute
+  '/catalogue': typeof CatalogueRoute
+  '/compliance': typeof ComplianceRoute
+  '/pipeline': typeof PipelineRoute
+  '/simulator': typeof SimulatorRoute
+  '/api/pipeline': typeof ApiPipelineRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cart': typeof CartRoute
+  '/catalogue': typeof CatalogueRoute
+  '/compliance': typeof ComplianceRoute
+  '/pipeline': typeof PipelineRoute
+  '/simulator': typeof SimulatorRoute
+  '/api/pipeline': typeof ApiPipelineRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/cart'
+    | '/catalogue'
+    | '/compliance'
+    | '/pipeline'
+    | '/simulator'
+    | '/api/pipeline'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/cart'
+    | '/catalogue'
+    | '/compliance'
+    | '/pipeline'
+    | '/simulator'
+    | '/api/pipeline'
+  id:
+    | '__root__'
+    | '/'
+    | '/cart'
+    | '/catalogue'
+    | '/compliance'
+    | '/pipeline'
+    | '/simulator'
+    | '/api/pipeline'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CartRoute: typeof CartRoute
+  CatalogueRoute: typeof CatalogueRoute
+  ComplianceRoute: typeof ComplianceRoute
+  PipelineRoute: typeof PipelineRoute
+  SimulatorRoute: typeof SimulatorRoute
+  ApiPipelineRoute: typeof ApiPipelineRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/simulator': {
+      id: '/simulator'
+      path: '/simulator'
+      fullPath: '/simulator'
+      preLoaderRoute: typeof SimulatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pipeline': {
+      id: '/pipeline'
+      path: '/pipeline'
+      fullPath: '/pipeline'
+      preLoaderRoute: typeof PipelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compliance': {
+      id: '/compliance'
+      path: '/compliance'
+      fullPath: '/compliance'
+      preLoaderRoute: typeof ComplianceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/catalogue': {
+      id: '/catalogue'
+      path: '/catalogue'
+      fullPath: '/catalogue'
+      preLoaderRoute: typeof CatalogueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cart': {
+      id: '/cart'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof CartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +165,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/pipeline': {
+      id: '/api/pipeline'
+      path: '/api/pipeline'
+      fullPath: '/api/pipeline'
+      preLoaderRoute: typeof ApiPipelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CartRoute: CartRoute,
+  CatalogueRoute: CatalogueRoute,
+  ComplianceRoute: ComplianceRoute,
+  PipelineRoute: PipelineRoute,
+  SimulatorRoute: SimulatorRoute,
+  ApiPipelineRoute: ApiPipelineRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

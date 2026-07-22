@@ -8,9 +8,18 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
+import {
+  LayoutDashboard,
+  Package,
+  ShoppingCart,
+  LineChart,
+  ShieldCheck,
+  Bot,
+} from "lucide-react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { useCart } from "../lib/cart-store";
 
 function NotFoundComponent() {
   return (
@@ -77,14 +86,26 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "BidSense Dashboard — Compliance-First Tender Command" },
+      {
+        name: "description",
+        content:
+          "Command centre for BidSense: adversarial peer-reviewed AI bidding, subcontractor-floor-protected pricing, and ISO-aligned compliance for UK public-sector SMEs.",
+      },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "BidSense Dashboard — Compliance-First Tender Command" },
+      {
+        property: "og:description",
+        content:
+          "Command centre for BidSense: adversarial peer-reviewed AI bidding, subcontractor-floor-protected pricing, and ISO-aligned compliance for UK public-sector SMEs.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "BidSense Dashboard — Compliance-First Tender Command" },
+      { name: "twitter:description", content: "Command centre for BidSense: adversarial peer-reviewed AI bidding, subcontractor-floor-protected pricing, and ISO-aligned compliance for UK public-sector SMEs." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/c901f833-a19d-47e9-aced-38ccea7fcb38" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/c901f833-a19d-47e9-aced-38ccea7fcb38" },
     ],
     links: [
       {
@@ -119,8 +140,73 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <AppShell />
     </QueryClientProvider>
+  );
+}
+
+function AppShell() {
+  const count = useCart((s) => s.ids.length);
+  const nav: Array<{
+    to: string;
+    label: string;
+    icon: typeof LayoutDashboard;
+    exact?: boolean;
+    badge?: number;
+  }> = [
+    { to: "/", label: "Dashboard", icon: LayoutDashboard, exact: true },
+    { to: "/catalogue", label: "Service Catalogue", icon: Package },
+    { to: "/cart", label: "BYOB Cart", icon: ShoppingCart, badge: count },
+    { to: "/simulator", label: "Operational Simulator", icon: LineChart },
+    { to: "/compliance", label: "Compliance & ISO HUD", icon: ShieldCheck },
+    { to: "/pipeline", label: "Adversarial Pipeline", icon: Bot },
+  ];
+
+  return (
+    <div className="flex min-h-screen bg-background text-foreground">
+      <aside className="w-64 shrink-0 border-r border-sidebar-border bg-sidebar flex flex-col">
+        <div className="px-5 py-6 border-b border-sidebar-border">
+          <div className="flex items-center gap-2">
+            <div className="h-8 w-8 rounded-md bg-gold text-gold-foreground grid place-items-center font-black">
+              B
+            </div>
+            <div>
+              <div className="text-sm font-bold tracking-tight text-sidebar-foreground">
+                BidSense
+              </div>
+              <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                Tender Intelligence
+              </div>
+            </div>
+          </div>
+        </div>
+        <nav className="flex-1 px-3 py-4 space-y-1">
+          {nav.map((n) => (
+            <Link
+              key={n.to}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              to={n.to as any}
+              activeOptions={{ exact: !!n.exact }}
+              className="flex items-center gap-3 px-3 py-2 rounded-md text-sm text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors data-[status=active]:bg-sidebar-accent data-[status=active]:text-sidebar-accent-foreground data-[status=active]:font-semibold data-[status=active]:border-l-2 data-[status=active]:border-gold data-[status=active]:pl-[10px]"
+            >
+              <n.icon className="h-4 w-4" />
+              <span className="flex-1">{n.label}</span>
+              {n.badge ? (
+                <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-gold text-gold-foreground">
+                  {n.badge}
+                </span>
+              ) : null}
+            </Link>
+          ))}
+        </nav>
+        <div className="px-5 py-4 border-t border-sidebar-border text-[10px] text-muted-foreground leading-relaxed">
+          Client-side encrypted evidence.<br />
+          Adversarial peer review on every bid.
+        </div>
+      </aside>
+      <main className="flex-1 min-w-0 overflow-x-hidden">
+        <Outlet />
+      </main>
+    </div>
   );
 }

@@ -46,6 +46,10 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
+  --color-gold: var(--gold);
+  --color-gold-foreground: var(--gold-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -63,38 +67,43 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  /* BidSense: Slate-900 base, gold/amber highlights for protected floors */
+  --background: oklch(0.205 0.03 265);          /* slate-900 */
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.258 0.028 265);               /* slate-800 */
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.258 0.028 265);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.72 0.15 65);               /* amber #B45309-ish highlight */
+  --primary-foreground: oklch(0.18 0.02 265);
+  --secondary: oklch(0.32 0.03 265);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.3 0.025 265);
+  --muted-foreground: oklch(0.72 0.02 265);
+  --accent: oklch(0.6 0.13 62);                 /* gold accent */
+  --accent-foreground: oklch(0.18 0.02 265);
+  --destructive: oklch(0.62 0.22 27);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.35 0.025 265);
+  --input: oklch(0.32 0.025 265);
+  --ring: oklch(0.72 0.15 65);
+  --gold: oklch(0.72 0.15 65);                  /* protected-payout gold */
+  --gold-foreground: oklch(0.18 0.02 265);
+  --success: oklch(0.68 0.16 155);
+  --warning: oklch(0.78 0.16 75);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --sidebar: oklch(0.17 0.025 265);
+  --sidebar-foreground: oklch(0.92 0.01 265);
+  --sidebar-primary: oklch(0.72 0.15 65);
+  --sidebar-primary-foreground: oklch(0.18 0.02 265);
+  --sidebar-accent: oklch(0.26 0.03 265);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.3 0.025 265);
+  --sidebar-ring: oklch(0.72 0.15 65);
 }
 
 .dark {
