@@ -14,7 +14,9 @@ import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as PartnerPricingRouteImport } from './routes/partner-pricing'
 import { Route as NewsRouteImport } from './routes/news'
+import { Route as MigrationRouteImport } from './routes/migration'
 import { Route as LicensingRouteImport } from './routes/licensing'
+import { Route as FinanceRouteImport } from './routes/finance'
 import { Route as ComplianceRouteImport } from './routes/compliance'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as CatalogueRouteImport } from './routes/catalogue'
@@ -49,9 +51,19 @@ const NewsRoute = NewsRouteImport.update({
   path: '/news',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MigrationRoute = MigrationRouteImport.update({
+  id: '/migration',
+  path: '/migration',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LicensingRoute = LicensingRouteImport.update({
   id: '/licensing',
   path: '/licensing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FinanceRoute = FinanceRouteImport.update({
+  id: '/finance',
+  path: '/finance',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComplianceRoute = ComplianceRouteImport.update({
@@ -102,7 +114,9 @@ export interface FileRoutesByFullPath {
   '/catalogue': typeof CatalogueRoute
   '/chat': typeof ChatRoute
   '/compliance': typeof ComplianceRoute
+  '/finance': typeof FinanceRoute
   '/licensing': typeof LicensingRoute
+  '/migration': typeof MigrationRoute
   '/news': typeof NewsRoute
   '/partner-pricing': typeof PartnerPricingRoute
   '/pipeline': typeof PipelineRoute
@@ -118,7 +132,9 @@ export interface FileRoutesByTo {
   '/catalogue': typeof CatalogueRoute
   '/chat': typeof ChatRoute
   '/compliance': typeof ComplianceRoute
+  '/finance': typeof FinanceRoute
   '/licensing': typeof LicensingRoute
+  '/migration': typeof MigrationRoute
   '/news': typeof NewsRoute
   '/partner-pricing': typeof PartnerPricingRoute
   '/pipeline': typeof PipelineRoute
@@ -135,7 +151,9 @@ export interface FileRoutesById {
   '/catalogue': typeof CatalogueRoute
   '/chat': typeof ChatRoute
   '/compliance': typeof ComplianceRoute
+  '/finance': typeof FinanceRoute
   '/licensing': typeof LicensingRoute
+  '/migration': typeof MigrationRoute
   '/news': typeof NewsRoute
   '/partner-pricing': typeof PartnerPricingRoute
   '/pipeline': typeof PipelineRoute
@@ -153,7 +171,9 @@ export interface FileRouteTypes {
     | '/catalogue'
     | '/chat'
     | '/compliance'
+    | '/finance'
     | '/licensing'
+    | '/migration'
     | '/news'
     | '/partner-pricing'
     | '/pipeline'
@@ -169,7 +189,9 @@ export interface FileRouteTypes {
     | '/catalogue'
     | '/chat'
     | '/compliance'
+    | '/finance'
     | '/licensing'
+    | '/migration'
     | '/news'
     | '/partner-pricing'
     | '/pipeline'
@@ -185,7 +207,9 @@ export interface FileRouteTypes {
     | '/catalogue'
     | '/chat'
     | '/compliance'
+    | '/finance'
     | '/licensing'
+    | '/migration'
     | '/news'
     | '/partner-pricing'
     | '/pipeline'
@@ -202,7 +226,9 @@ export interface RootRouteChildren {
   CatalogueRoute: typeof CatalogueRoute
   ChatRoute: typeof ChatRoute
   ComplianceRoute: typeof ComplianceRoute
+  FinanceRoute: typeof FinanceRoute
   LicensingRoute: typeof LicensingRoute
+  MigrationRoute: typeof MigrationRoute
   NewsRoute: typeof NewsRoute
   PartnerPricingRoute: typeof PartnerPricingRoute
   PipelineRoute: typeof PipelineRoute
@@ -249,11 +275,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NewsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/migration': {
+      id: '/migration'
+      path: '/migration'
+      fullPath: '/migration'
+      preLoaderRoute: typeof MigrationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/licensing': {
       id: '/licensing'
       path: '/licensing'
       fullPath: '/licensing'
       preLoaderRoute: typeof LicensingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/finance': {
+      id: '/finance'
+      path: '/finance'
+      fullPath: '/finance'
+      preLoaderRoute: typeof FinanceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/compliance': {
@@ -322,7 +362,9 @@ const rootRouteChildren: RootRouteChildren = {
   CatalogueRoute: CatalogueRoute,
   ChatRoute: ChatRoute,
   ComplianceRoute: ComplianceRoute,
+  FinanceRoute: FinanceRoute,
   LicensingRoute: LicensingRoute,
+  MigrationRoute: MigrationRoute,
   NewsRoute: NewsRoute,
   PartnerPricingRoute: PartnerPricingRoute,
   PipelineRoute: PipelineRoute,

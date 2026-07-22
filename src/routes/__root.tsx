@@ -17,6 +17,12 @@ import {
   Bot,
   Settings as SettingsIcon,
   BadgePoundSterling,
+  MessageCircle,
+  Paperclip,
+  Newspaper,
+  KeyRound,
+  Receipt,
+  PackageOpen,
 } from "lucide-react";
 
 import appCss from "../styles.css?url";
@@ -165,11 +171,17 @@ function AppShell() {
   }> = [
     { to: "/", label: "Dashboard", icon: LayoutDashboard, exact: true },
     { to: "/catalogue", label: "Service Catalogue", icon: Package },
+    { to: "/chat", label: "Service Concierge", icon: MessageCircle },
     { to: "/cart", label: "BYOB Cart", icon: ShoppingCart, badge: count },
     { to: "/simulator", label: "Operational Simulator", icon: LineChart },
     { to: "/compliance", label: "Compliance & ISO HUD", icon: ShieldCheck },
     { to: "/pipeline", label: "Adversarial Pipeline", icon: Bot },
+    { to: "/attachments", label: "Tender Attachments", icon: Paperclip },
+    { to: "/news", label: "Market Radar", icon: Newspaper },
     { to: "/partner-pricing", label: "Partner Pricing", icon: BadgePoundSterling },
+    { to: "/licensing", label: "Licensing & Seats", icon: KeyRound },
+    { to: "/finance", label: "Financial Records", icon: Receipt },
+    { to: "/migration", label: "Migration Bundle", icon: PackageOpen },
     { to: "/settings", label: "Branding", icon: SettingsIcon },
   ];
 
