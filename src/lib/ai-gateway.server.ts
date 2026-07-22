@@ -1,110 +1,22 @@
-import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
+import { gateway } from "ai";
 
-const LOVABLE_AIG_RUN_ID_HEADER = "X-Lovable-AIG-Run-ID";
-
-function createRunIdFetch(initialRunId?: string) {
-  let runId = initialRunId?.trim() || undefined;
-  let resolveRunId: (value: string | undefined) => void = () => {};
-  let resolved = false;
-  const ready = new Promise<string | undefined>((r) => {
-    resolveRunId = r;
-  });
-  const publish = (v?: string) => {
-    const next = v?.trim() || undefined;
-    if (!runId && next) runId = next;
-    if (!resolved) {
-      resolved = true;
-      resolveRunId(runId);
-    }
-  };
-  if (runId) publish(runId);
-  return {
-    fetch: async (input: RequestInfo | URL, init?: RequestInit) => {
-      const headers = new Headers(init?.headers);
-      if (runId && !headers.has(LOVABLE_AIG_RUN_ID_HEADER)) headers.set(LOVABLE_AIG_RUN_ID_HEADER, runId);
-      try {
-        const res = await fetch(input, { ...init, headers });
-        publish(res.headers.get(LOVABLE_AIG_RUN_ID_HEADER) ?? undefined);
-        return res;
-      } catch (e) {
-        publish(undefined);
-        throw e;
-      }
-    },
-    getRunId: () => runId,
-    waitForRunId: () => (runId ? Promise.resolve(runId) : ready),
-  };
-}
-
-export function createLovableAiGatewayProvider(lovableApiKey: string, initialRunId?: string) {
-  const runIdFetch = createRunIdFetch(initialRunId);
-  const provider = createOpenAICompatible({
-    name: "lovable",
-    baseURL: "https://ai.gateway.lovable.dev/v1",
-    headers: {
-      "Lovable-API-Key": lovableApiKey,
-      "X-Lovable-AIG-SDK": "vercel-ai-sdk",
-    },
-    fetch: runIdFetch.fetch,
-  });
-  return Object.assign(provider, {
-    getRunId: runIdFetch.getRunId,
-    waitForRunId: runIdFetch.waitForRunId,
-  });
-}
-
-export function getLovableAiGatewayRunId(request: Request) {
-  return request.headers.get(LOVABLE_AIG_RUN_ID_HEADER)?.trim() || undefined;
-}
-
-export function getLovableAiGatewayResponseHeaders(
-  providerHeaders?: HeadersInit,
-  init?: HeadersInit,
-) {
-  const headers = new Headers(init);
-  new Headers(providerHeaders).forEach((v, n) => {
-    if (n.toLowerCase().startsWith("x-lovable-aig-")) headers.set(n, v);
-  });
-  return headers;
-}
-
-export async function withLovableAiGatewayRunIdHeader(
-  response: Response,
-  gateway: { getRunId: () => string | undefined; waitForRunId: () => Promise<string | undefined> },
-) {
-  if (!response.body) {
-    const runId = gateway.getRunId();
-    const headers = new Headers(response.headers);
-    if (runId) headers.set(LOVABLE_AIG_RUN_ID_HEADER, runId);
-    return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
-  }
-  const reader = response.body.getReader();
-  const firstChunk = reader.read();
-  const runId = await gateway.waitForRunId();
-  const headers = new Headers(response.headers);
-  if (runId) headers.set(LOVABLE_AIG_RUN_ID_HEADER, runId);
-  const body = new ReadableStream({
-    async start(controller) {
-      try {
-        const first = await firstChunk;
-        if (first.done) return controller.close();
-        controller.enqueue(first.value);
-        while (true) {
-          const c = await reader.read();
-          if (c.done) break;
-          controller.enqueue(c.value);
-        }
-        controller.close();
-      } catch (e) {
-        controller.error(e);
-      }
-    },
-    cancel: (reason?: unknown) => reader.cancel(reason),
-  });
-  return new Response(body, { status: response.status, statusText: response.statusText, headers });
-}
+// BidSense runs all model inference through the Vercel AI Gateway.
+// The gateway reads AI_GATEWAY_API_KEY from the server environment
+// (or Vercel OIDC when deployed) — no per-request key plumbing needed.
 
 export const CHAT_MODEL = "google/gemini-3.6-flash";
+
+/** Returns true when the server has gateway credentials available. */
+export function hasGatewayCredentials(): boolean {
+  return Boolean(
+    process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN,
+  );
+}
+
+/** Resolve a gateway LanguageModel from a model ID string. */
+export function gatewayModel(modelId: string = CHAT_MODEL) {
+  return gateway(modelId);
+}
 
 export const PERSONAS = {
   proposer: `You are the BidSense AI Bid Draft Agent (SVC-011). Generate a structured tender narrative organised around 3-5 clear win themes. Extract facts strictly from the client's BKR (Bid Knowledge Repository) context. Never invent evidence. Output markdown with sections: Executive Summary, Win Themes, Compliance Evidence, Response Draft. Keep it tight and evaluator-ready.`,
