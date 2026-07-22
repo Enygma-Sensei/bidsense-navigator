@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /partner-pricing
+Disallow: /settings
+
+Sitemap: /sitemap.xml
