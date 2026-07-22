@@ -1,0 +1,18 @@
+# BidSense
+
+> Compliance-first tender intelligence platform for UK public-sector SMEs, with adversarial peer-reviewed AI bidding, subcontractor-floor-protected pricing, and ISO-aligned governance.
+
+BidSense helps small and mid-sized suppliers win UK public-sector work without cutting corners on compliance. Every bid is drafted, challenged, risk-scored and audited by a panel of AI agents grounded in the client's own evidence repository.
+
+## Pages
+
+- [Dashboard](/): Command centre — active bids, compliance HUD, pricing guardrails.
+- [Service Catalogue](/catalogue): Full menu of BidSense services with plain-language explanations, ISO clause mapping and cross-sell suggestions.
+- [BYOB Cart](/cart): Build-your-own-bundle pricing with subcontractor-floor protection and UK/international payment options.
+- [Operational Simulator](/simulator): Model bid throughput, win rate and margin under different service mixes.
+- [Compliance & ISO HUD](/compliance): The ten ISO standards BidSense enforces, with plain-English explanations and worked examples.
+- [Adversarial Pipeline](/pipeline): Four-agent bid workflow — Proposer, Challenger, Actuary, Auditor.
+
+## Optional
+
+- [Publishing sitemap](/sitemap.xml)
