@@ -19,6 +19,7 @@ import { Route as CartRouteImport } from './routes/cart'
 import { Route as AttachmentsRouteImport } from './routes/attachments'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPipelineRouteImport } from './routes/api/pipeline'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const SimulatorRoute = SimulatorRouteImport.update({
   id: '/simulator',
@@ -70,6 +71,11 @@ const ApiPipelineRoute = ApiPipelineRouteImport.update({
   path: '/api/pipeline',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
   '/simulator': typeof SimulatorRoute
+  '/api/chat': typeof ApiChatRoute
   '/api/pipeline': typeof ApiPipelineRoute
 }
 export interface FileRoutesByTo {
@@ -93,6 +100,7 @@ export interface FileRoutesByTo {
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
   '/simulator': typeof SimulatorRoute
+  '/api/chat': typeof ApiChatRoute
   '/api/pipeline': typeof ApiPipelineRoute
 }
 export interface FileRoutesById {
@@ -106,6 +114,7 @@ export interface FileRoutesById {
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
   '/simulator': typeof SimulatorRoute
+  '/api/chat': typeof ApiChatRoute
   '/api/pipeline': typeof ApiPipelineRoute
 }
 export interface FileRouteTypes {
@@ -120,6 +129,7 @@ export interface FileRouteTypes {
     | '/pipeline'
     | '/settings'
     | '/simulator'
+    | '/api/chat'
     | '/api/pipeline'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -132,6 +142,7 @@ export interface FileRouteTypes {
     | '/pipeline'
     | '/settings'
     | '/simulator'
+    | '/api/chat'
     | '/api/pipeline'
   id:
     | '__root__'
@@ -144,6 +155,7 @@ export interface FileRouteTypes {
     | '/pipeline'
     | '/settings'
     | '/simulator'
+    | '/api/chat'
     | '/api/pipeline'
   fileRoutesById: FileRoutesById
 }
@@ -157,6 +169,7 @@ export interface RootRouteChildren {
   PipelineRoute: typeof PipelineRoute
   SettingsRoute: typeof SettingsRoute
   SimulatorRoute: typeof SimulatorRoute
+  ApiChatRoute: typeof ApiChatRoute
   ApiPipelineRoute: typeof ApiPipelineRoute
 }
 
@@ -232,6 +245,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPipelineRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -245,6 +265,7 @@ const rootRouteChildren: RootRouteChildren = {
   PipelineRoute: PipelineRoute,
   SettingsRoute: SettingsRoute,
   SimulatorRoute: SimulatorRoute,
+  ApiChatRoute: ApiChatRoute,
   ApiPipelineRoute: ApiPipelineRoute,
 }
 export const routeTree = rootRouteImport
