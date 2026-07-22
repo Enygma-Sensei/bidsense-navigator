@@ -13,6 +13,7 @@ import { Route as SimulatorRouteImport } from './routes/simulator'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as PartnerPricingRouteImport } from './routes/partner-pricing'
+import { Route as NewsRouteImport } from './routes/news'
 import { Route as ComplianceRouteImport } from './routes/compliance'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as CatalogueRouteImport } from './routes/catalogue'
@@ -40,6 +41,11 @@ const PipelineRoute = PipelineRouteImport.update({
 const PartnerPricingRoute = PartnerPricingRouteImport.update({
   id: '/partner-pricing',
   path: '/partner-pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComplianceRoute = ComplianceRouteImport.update({
@@ -90,6 +96,7 @@ export interface FileRoutesByFullPath {
   '/catalogue': typeof CatalogueRoute
   '/chat': typeof ChatRoute
   '/compliance': typeof ComplianceRoute
+  '/news': typeof NewsRoute
   '/partner-pricing': typeof PartnerPricingRoute
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
@@ -104,6 +111,7 @@ export interface FileRoutesByTo {
   '/catalogue': typeof CatalogueRoute
   '/chat': typeof ChatRoute
   '/compliance': typeof ComplianceRoute
+  '/news': typeof NewsRoute
   '/partner-pricing': typeof PartnerPricingRoute
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
@@ -119,6 +127,7 @@ export interface FileRoutesById {
   '/catalogue': typeof CatalogueRoute
   '/chat': typeof ChatRoute
   '/compliance': typeof ComplianceRoute
+  '/news': typeof NewsRoute
   '/partner-pricing': typeof PartnerPricingRoute
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
@@ -135,6 +144,7 @@ export interface FileRouteTypes {
     | '/catalogue'
     | '/chat'
     | '/compliance'
+    | '/news'
     | '/partner-pricing'
     | '/pipeline'
     | '/settings'
@@ -149,6 +159,7 @@ export interface FileRouteTypes {
     | '/catalogue'
     | '/chat'
     | '/compliance'
+    | '/news'
     | '/partner-pricing'
     | '/pipeline'
     | '/settings'
@@ -163,6 +174,7 @@ export interface FileRouteTypes {
     | '/catalogue'
     | '/chat'
     | '/compliance'
+    | '/news'
     | '/partner-pricing'
     | '/pipeline'
     | '/settings'
@@ -178,6 +190,7 @@ export interface RootRouteChildren {
   CatalogueRoute: typeof CatalogueRoute
   ChatRoute: typeof ChatRoute
   ComplianceRoute: typeof ComplianceRoute
+  NewsRoute: typeof NewsRoute
   PartnerPricingRoute: typeof PartnerPricingRoute
   PipelineRoute: typeof PipelineRoute
   SettingsRoute: typeof SettingsRoute
@@ -214,6 +227,13 @@ declare module '@tanstack/react-router' {
       path: '/partner-pricing'
       fullPath: '/partner-pricing'
       preLoaderRoute: typeof PartnerPricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/compliance': {
@@ -282,6 +302,7 @@ const rootRouteChildren: RootRouteChildren = {
   CatalogueRoute: CatalogueRoute,
   ChatRoute: ChatRoute,
   ComplianceRoute: ComplianceRoute,
+  NewsRoute: NewsRoute,
   PartnerPricingRoute: PartnerPricingRoute,
   PipelineRoute: PipelineRoute,
   SettingsRoute: SettingsRoute,
