@@ -100,11 +100,9 @@ export const Route = createFileRoute("/api/chat")({
             messages: cleaned.map((m) => ({ role: m.role, content: m.content })),
           });
 
-          const response = result.toUIMessageStreamResponse({
-            headers: getLovableAiGatewayResponseHeaders(undefined, {
-              "Cache-Control": "no-store",
-            }),
-          });
+          const response = result.toUIMessageStreamResponse();
+          // Attach any cache header and forwarded gateway ids after stream creation
+          response.headers.set("Cache-Control", "no-store");
           return withLovableAiGatewayRunIdHeader(response, gateway);
         } catch (err) {
           const msg = err instanceof Error ? err.message : "Chat failed";
