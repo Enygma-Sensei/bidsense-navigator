@@ -23,6 +23,9 @@ import {
   KeyRound,
   Receipt,
   PackageOpen,
+  Users,
+  ScrollText,
+  Lock,
 } from "lucide-react";
 
 import appCss from "../styles.css?url";
@@ -176,6 +179,7 @@ function AppShell() {
     { to: "/simulator", label: "Operational Simulator", icon: LineChart },
     { to: "/compliance", label: "Compliance & ISO HUD", icon: ShieldCheck },
     { to: "/pipeline", label: "Adversarial Pipeline", icon: Bot },
+    { to: "/panel", label: "Panel of Experts", icon: Users },
     { to: "/attachments", label: "Tender Attachments", icon: Paperclip },
     { to: "/news", label: "Market Radar", icon: Newspaper },
     { to: "/partner-pricing", label: "Partner Pricing", icon: BadgePoundSterling },
@@ -183,6 +187,8 @@ function AppShell() {
     { to: "/finance", label: "Financial Records", icon: Receipt },
     { to: "/migration", label: "Migration Bundle", icon: PackageOpen },
     { to: "/settings", label: "Branding", icon: SettingsIcon },
+    { to: "/access", label: "Access Control", icon: Lock },
+    { to: "/legal", label: "Legal & Trust", icon: ScrollText },
   ];
 
   return (
