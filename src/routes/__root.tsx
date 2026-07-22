@@ -15,12 +15,15 @@ import {
   LineChart,
   ShieldCheck,
   Bot,
+  Settings as SettingsIcon,
+  BadgePoundSterling,
 } from "lucide-react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { useCart } from "../lib/cart-store";
 import { useViewerRole, roleLabels, type ViewerRole } from "../lib/viewer-role";
+import { useResellerBrand } from "../lib/reseller-brand";
 
 function NotFoundComponent() {
   return (
@@ -148,6 +151,11 @@ function RootComponent() {
 
 function AppShell() {
   const count = useCart((s) => s.ids.length);
+  const role = useViewerRole((s) => s.role);
+  const brand = useResellerBrand();
+  const partnerView = role === "reseller" || role === "psl";
+  const showBrand = partnerView && (brand.brandName || brand.logoDataUrl);
+  const showBidSenseMark = !(partnerView && brand.hideBidSenseWordmark);
   const nav: Array<{
     to: string;
     label: string;
@@ -161,25 +169,55 @@ function AppShell() {
     { to: "/simulator", label: "Operational Simulator", icon: LineChart },
     { to: "/compliance", label: "Compliance & ISO HUD", icon: ShieldCheck },
     { to: "/pipeline", label: "Adversarial Pipeline", icon: Bot },
+    { to: "/partner-pricing", label: "Partner Pricing", icon: BadgePoundSterling },
+    { to: "/settings", label: "Branding", icon: SettingsIcon },
   ];
 
   return (
     <div className="flex min-h-screen bg-background text-foreground">
       <aside className="w-64 shrink-0 border-r border-sidebar-border bg-sidebar flex flex-col">
         <div className="px-5 py-6 border-b border-sidebar-border">
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-md bg-gold text-gold-foreground grid place-items-center font-black">
-              B
-            </div>
-            <div>
-              <div className="text-sm font-bold tracking-tight text-sidebar-foreground">
-                BidSense
+          {showBrand ? (
+            <div className="flex items-center gap-2">
+              <div
+                className="h-8 w-8 rounded-md grid place-items-center overflow-hidden font-black text-white"
+                style={{ background: brand.primaryHex }}
+              >
+                {brand.logoDataUrl ? (
+                  <img src={brand.logoDataUrl} alt="" className="max-h-full max-w-full" />
+                ) : (
+                  (brand.brandName || "B").slice(0, 1).toUpperCase()
+                )}
               </div>
-              <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
-                Tender Intelligence
+              <div>
+                <div className="text-sm font-bold tracking-tight text-sidebar-foreground">
+                  {brand.brandName || "Your Brand"}
+                </div>
+                <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                  {brand.tagline || "Tender Intelligence"}
+                </div>
+                {showBidSenseMark && (
+                  <div className="text-[9px] text-muted-foreground/70 mt-0.5">
+                    powered by BidSense
+                  </div>
+                )}
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-md bg-gold text-gold-foreground grid place-items-center font-black">
+                B
+              </div>
+              <div>
+                <div className="text-sm font-bold tracking-tight text-sidebar-foreground">
+                  BidSense
+                </div>
+                <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                  Tender Intelligence
+                </div>
+              </div>
+            </div>
+          )}
         </div>
         <nav className="flex-1 px-3 py-4 space-y-1">
           {nav.map((n) => (

@@ -10,7 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SimulatorRouteImport } from './routes/simulator'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as PipelineRouteImport } from './routes/pipeline'
+import { Route as PartnerPricingRouteImport } from './routes/partner-pricing'
 import { Route as ComplianceRouteImport } from './routes/compliance'
 import { Route as CatalogueRouteImport } from './routes/catalogue'
 import { Route as CartRouteImport } from './routes/cart'
@@ -22,9 +24,19 @@ const SimulatorRoute = SimulatorRouteImport.update({
   path: '/simulator',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PipelineRoute = PipelineRouteImport.update({
   id: '/pipeline',
   path: '/pipeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnerPricingRoute = PartnerPricingRouteImport.update({
+  id: '/partner-pricing',
+  path: '/partner-pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComplianceRoute = ComplianceRouteImport.update({
@@ -58,7 +70,9 @@ export interface FileRoutesByFullPath {
   '/cart': typeof CartRoute
   '/catalogue': typeof CatalogueRoute
   '/compliance': typeof ComplianceRoute
+  '/partner-pricing': typeof PartnerPricingRoute
   '/pipeline': typeof PipelineRoute
+  '/settings': typeof SettingsRoute
   '/simulator': typeof SimulatorRoute
   '/api/pipeline': typeof ApiPipelineRoute
 }
@@ -67,7 +81,9 @@ export interface FileRoutesByTo {
   '/cart': typeof CartRoute
   '/catalogue': typeof CatalogueRoute
   '/compliance': typeof ComplianceRoute
+  '/partner-pricing': typeof PartnerPricingRoute
   '/pipeline': typeof PipelineRoute
+  '/settings': typeof SettingsRoute
   '/simulator': typeof SimulatorRoute
   '/api/pipeline': typeof ApiPipelineRoute
 }
@@ -77,7 +93,9 @@ export interface FileRoutesById {
   '/cart': typeof CartRoute
   '/catalogue': typeof CatalogueRoute
   '/compliance': typeof ComplianceRoute
+  '/partner-pricing': typeof PartnerPricingRoute
   '/pipeline': typeof PipelineRoute
+  '/settings': typeof SettingsRoute
   '/simulator': typeof SimulatorRoute
   '/api/pipeline': typeof ApiPipelineRoute
 }
@@ -88,7 +106,9 @@ export interface FileRouteTypes {
     | '/cart'
     | '/catalogue'
     | '/compliance'
+    | '/partner-pricing'
     | '/pipeline'
+    | '/settings'
     | '/simulator'
     | '/api/pipeline'
   fileRoutesByTo: FileRoutesByTo
@@ -97,7 +117,9 @@ export interface FileRouteTypes {
     | '/cart'
     | '/catalogue'
     | '/compliance'
+    | '/partner-pricing'
     | '/pipeline'
+    | '/settings'
     | '/simulator'
     | '/api/pipeline'
   id:
@@ -106,7 +128,9 @@ export interface FileRouteTypes {
     | '/cart'
     | '/catalogue'
     | '/compliance'
+    | '/partner-pricing'
     | '/pipeline'
+    | '/settings'
     | '/simulator'
     | '/api/pipeline'
   fileRoutesById: FileRoutesById
@@ -116,7 +140,9 @@ export interface RootRouteChildren {
   CartRoute: typeof CartRoute
   CatalogueRoute: typeof CatalogueRoute
   ComplianceRoute: typeof ComplianceRoute
+  PartnerPricingRoute: typeof PartnerPricingRoute
   PipelineRoute: typeof PipelineRoute
+  SettingsRoute: typeof SettingsRoute
   SimulatorRoute: typeof SimulatorRoute
   ApiPipelineRoute: typeof ApiPipelineRoute
 }
@@ -130,11 +156,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SimulatorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pipeline': {
       id: '/pipeline'
       path: '/pipeline'
       fullPath: '/pipeline'
       preLoaderRoute: typeof PipelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partner-pricing': {
+      id: '/partner-pricing'
+      path: '/partner-pricing'
+      fullPath: '/partner-pricing'
+      preLoaderRoute: typeof PartnerPricingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/compliance': {
@@ -180,7 +220,9 @@ const rootRouteChildren: RootRouteChildren = {
   CartRoute: CartRoute,
   CatalogueRoute: CatalogueRoute,
   ComplianceRoute: ComplianceRoute,
+  PartnerPricingRoute: PartnerPricingRoute,
   PipelineRoute: PipelineRoute,
+  SettingsRoute: SettingsRoute,
   SimulatorRoute: SimulatorRoute,
   ApiPipelineRoute: ApiPipelineRoute,
 }
