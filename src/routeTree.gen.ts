@@ -16,6 +16,7 @@ import { Route as PartnerPricingRouteImport } from './routes/partner-pricing'
 import { Route as ComplianceRouteImport } from './routes/compliance'
 import { Route as CatalogueRouteImport } from './routes/catalogue'
 import { Route as CartRouteImport } from './routes/cart'
+import { Route as AttachmentsRouteImport } from './routes/attachments'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPipelineRouteImport } from './routes/api/pipeline'
 
@@ -54,6 +55,11 @@ const CartRoute = CartRouteImport.update({
   path: '/cart',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AttachmentsRoute = AttachmentsRouteImport.update({
+  id: '/attachments',
+  path: '/attachments',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -67,6 +73,7 @@ const ApiPipelineRoute = ApiPipelineRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/attachments': typeof AttachmentsRoute
   '/cart': typeof CartRoute
   '/catalogue': typeof CatalogueRoute
   '/compliance': typeof ComplianceRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/attachments': typeof AttachmentsRoute
   '/cart': typeof CartRoute
   '/catalogue': typeof CatalogueRoute
   '/compliance': typeof ComplianceRoute
@@ -90,6 +98,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/attachments': typeof AttachmentsRoute
   '/cart': typeof CartRoute
   '/catalogue': typeof CatalogueRoute
   '/compliance': typeof ComplianceRoute
@@ -103,6 +112,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/attachments'
     | '/cart'
     | '/catalogue'
     | '/compliance'
@@ -114,6 +124,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/attachments'
     | '/cart'
     | '/catalogue'
     | '/compliance'
@@ -125,6 +136,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/attachments'
     | '/cart'
     | '/catalogue'
     | '/compliance'
@@ -137,6 +149,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AttachmentsRoute: typeof AttachmentsRoute
   CartRoute: typeof CartRoute
   CatalogueRoute: typeof CatalogueRoute
   ComplianceRoute: typeof ComplianceRoute
@@ -198,6 +211,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CartRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/attachments': {
+      id: '/attachments'
+      path: '/attachments'
+      fullPath: '/attachments'
+      preLoaderRoute: typeof AttachmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -217,6 +237,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AttachmentsRoute: AttachmentsRoute,
   CartRoute: CartRoute,
   CatalogueRoute: CatalogueRoute,
   ComplianceRoute: ComplianceRoute,
