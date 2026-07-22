@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SimulatorRouteImport } from './routes/simulator'
 import { Route as PipelineRouteImport } from './routes/pipeline'
+import { Route as PartnerPricingRouteImport } from './routes/partner-pricing'
 import { Route as ComplianceRouteImport } from './routes/compliance'
 import { Route as CatalogueRouteImport } from './routes/catalogue'
 import { Route as CartRouteImport } from './routes/cart'
@@ -25,6 +26,11 @@ const SimulatorRoute = SimulatorRouteImport.update({
 const PipelineRoute = PipelineRouteImport.update({
   id: '/pipeline',
   path: '/pipeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnerPricingRoute = PartnerPricingRouteImport.update({
+  id: '/partner-pricing',
+  path: '/partner-pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComplianceRoute = ComplianceRouteImport.update({
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/cart': typeof CartRoute
   '/catalogue': typeof CatalogueRoute
   '/compliance': typeof ComplianceRoute
+  '/partner-pricing': typeof PartnerPricingRoute
   '/pipeline': typeof PipelineRoute
   '/simulator': typeof SimulatorRoute
   '/api/pipeline': typeof ApiPipelineRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/cart': typeof CartRoute
   '/catalogue': typeof CatalogueRoute
   '/compliance': typeof ComplianceRoute
+  '/partner-pricing': typeof PartnerPricingRoute
   '/pipeline': typeof PipelineRoute
   '/simulator': typeof SimulatorRoute
   '/api/pipeline': typeof ApiPipelineRoute
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/cart': typeof CartRoute
   '/catalogue': typeof CatalogueRoute
   '/compliance': typeof ComplianceRoute
+  '/partner-pricing': typeof PartnerPricingRoute
   '/pipeline': typeof PipelineRoute
   '/simulator': typeof SimulatorRoute
   '/api/pipeline': typeof ApiPipelineRoute
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
     | '/cart'
     | '/catalogue'
     | '/compliance'
+    | '/partner-pricing'
     | '/pipeline'
     | '/simulator'
     | '/api/pipeline'
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/cart'
     | '/catalogue'
     | '/compliance'
+    | '/partner-pricing'
     | '/pipeline'
     | '/simulator'
     | '/api/pipeline'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/cart'
     | '/catalogue'
     | '/compliance'
+    | '/partner-pricing'
     | '/pipeline'
     | '/simulator'
     | '/api/pipeline'
@@ -116,6 +128,7 @@ export interface RootRouteChildren {
   CartRoute: typeof CartRoute
   CatalogueRoute: typeof CatalogueRoute
   ComplianceRoute: typeof ComplianceRoute
+  PartnerPricingRoute: typeof PartnerPricingRoute
   PipelineRoute: typeof PipelineRoute
   SimulatorRoute: typeof SimulatorRoute
   ApiPipelineRoute: typeof ApiPipelineRoute
@@ -135,6 +148,13 @@ declare module '@tanstack/react-router' {
       path: '/pipeline'
       fullPath: '/pipeline'
       preLoaderRoute: typeof PipelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partner-pricing': {
+      id: '/partner-pricing'
+      path: '/partner-pricing'
+      fullPath: '/partner-pricing'
+      preLoaderRoute: typeof PartnerPricingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/compliance': {
@@ -180,6 +200,7 @@ const rootRouteChildren: RootRouteChildren = {
   CartRoute: CartRoute,
   CatalogueRoute: CatalogueRoute,
   ComplianceRoute: ComplianceRoute,
+  PartnerPricingRoute: PartnerPricingRoute,
   PipelineRoute: PipelineRoute,
   SimulatorRoute: SimulatorRoute,
   ApiPipelineRoute: ApiPipelineRoute,
