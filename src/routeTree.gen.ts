@@ -9,23 +9,35 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SimulatorRouteImport } from './routes/simulator'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as PartnerPricingRouteImport } from './routes/partner-pricing'
+import { Route as PanelRouteImport } from './routes/panel'
 import { Route as NewsRouteImport } from './routes/news'
 import { Route as MigrationRouteImport } from './routes/migration'
 import { Route as LicensingRouteImport } from './routes/licensing'
+import { Route as LegalRouteImport } from './routes/legal'
 import { Route as FinanceRouteImport } from './routes/finance'
 import { Route as ComplianceRouteImport } from './routes/compliance'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as CatalogueRouteImport } from './routes/catalogue'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as AttachmentsRouteImport } from './routes/attachments'
+import { Route as AccessRouteImport } from './routes/access'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LegalIndexRouteImport } from './routes/legal.index'
+import { Route as LegalSlugRouteImport } from './routes/legal.$slug'
 import { Route as ApiPipelineRouteImport } from './routes/api/pipeline'
+import { Route as ApiPanelRouteImport } from './routes/api/panel'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SimulatorRoute = SimulatorRouteImport.update({
   id: '/simulator',
   path: '/simulator',
@@ -46,6 +58,11 @@ const PartnerPricingRoute = PartnerPricingRouteImport.update({
   path: '/partner-pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PanelRoute = PanelRouteImport.update({
+  id: '/panel',
+  path: '/panel',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NewsRoute = NewsRouteImport.update({
   id: '/news',
   path: '/news',
@@ -59,6 +76,11 @@ const MigrationRoute = MigrationRouteImport.update({
 const LicensingRoute = LicensingRouteImport.update({
   id: '/licensing',
   path: '/licensing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalRoute = LegalRouteImport.update({
+  id: '/legal',
+  path: '/legal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinanceRoute = FinanceRouteImport.update({
@@ -91,14 +113,34 @@ const AttachmentsRoute = AttachmentsRouteImport.update({
   path: '/attachments',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccessRoute = AccessRouteImport.update({
+  id: '/access',
+  path: '/access',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LegalIndexRoute = LegalIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LegalRoute,
+} as any)
+const LegalSlugRoute = LegalSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => LegalRoute,
+} as any)
 const ApiPipelineRoute = ApiPipelineRouteImport.update({
   id: '/api/pipeline',
   path: '/api/pipeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPanelRoute = ApiPanelRouteImport.update({
+  id: '/api/panel',
+  path: '/api/panel',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiChatRoute = ApiChatRouteImport.update({
@@ -109,24 +151,32 @@ const ApiChatRoute = ApiChatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/access': typeof AccessRoute
   '/attachments': typeof AttachmentsRoute
   '/cart': typeof CartRoute
   '/catalogue': typeof CatalogueRoute
   '/chat': typeof ChatRoute
   '/compliance': typeof ComplianceRoute
   '/finance': typeof FinanceRoute
+  '/legal': typeof LegalRouteWithChildren
   '/licensing': typeof LicensingRoute
   '/migration': typeof MigrationRoute
   '/news': typeof NewsRoute
+  '/panel': typeof PanelRoute
   '/partner-pricing': typeof PartnerPricingRoute
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
   '/simulator': typeof SimulatorRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/panel': typeof ApiPanelRoute
   '/api/pipeline': typeof ApiPipelineRoute
+  '/legal/$slug': typeof LegalSlugRoute
+  '/legal/': typeof LegalIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/access': typeof AccessRoute
   '/attachments': typeof AttachmentsRoute
   '/cart': typeof CartRoute
   '/catalogue': typeof CatalogueRoute
@@ -136,54 +186,74 @@ export interface FileRoutesByTo {
   '/licensing': typeof LicensingRoute
   '/migration': typeof MigrationRoute
   '/news': typeof NewsRoute
+  '/panel': typeof PanelRoute
   '/partner-pricing': typeof PartnerPricingRoute
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
   '/simulator': typeof SimulatorRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/panel': typeof ApiPanelRoute
   '/api/pipeline': typeof ApiPipelineRoute
+  '/legal/$slug': typeof LegalSlugRoute
+  '/legal': typeof LegalIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/access': typeof AccessRoute
   '/attachments': typeof AttachmentsRoute
   '/cart': typeof CartRoute
   '/catalogue': typeof CatalogueRoute
   '/chat': typeof ChatRoute
   '/compliance': typeof ComplianceRoute
   '/finance': typeof FinanceRoute
+  '/legal': typeof LegalRouteWithChildren
   '/licensing': typeof LicensingRoute
   '/migration': typeof MigrationRoute
   '/news': typeof NewsRoute
+  '/panel': typeof PanelRoute
   '/partner-pricing': typeof PartnerPricingRoute
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
   '/simulator': typeof SimulatorRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/panel': typeof ApiPanelRoute
   '/api/pipeline': typeof ApiPipelineRoute
+  '/legal/$slug': typeof LegalSlugRoute
+  '/legal/': typeof LegalIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/access'
     | '/attachments'
     | '/cart'
     | '/catalogue'
     | '/chat'
     | '/compliance'
     | '/finance'
+    | '/legal'
     | '/licensing'
     | '/migration'
     | '/news'
+    | '/panel'
     | '/partner-pricing'
     | '/pipeline'
     | '/settings'
     | '/simulator'
+    | '/sitemap.xml'
     | '/api/chat'
+    | '/api/panel'
     | '/api/pipeline'
+    | '/legal/$slug'
+    | '/legal/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/access'
     | '/attachments'
     | '/cart'
     | '/catalogue'
@@ -193,53 +263,77 @@ export interface FileRouteTypes {
     | '/licensing'
     | '/migration'
     | '/news'
+    | '/panel'
     | '/partner-pricing'
     | '/pipeline'
     | '/settings'
     | '/simulator'
+    | '/sitemap.xml'
     | '/api/chat'
+    | '/api/panel'
     | '/api/pipeline'
+    | '/legal/$slug'
+    | '/legal'
   id:
     | '__root__'
     | '/'
+    | '/access'
     | '/attachments'
     | '/cart'
     | '/catalogue'
     | '/chat'
     | '/compliance'
     | '/finance'
+    | '/legal'
     | '/licensing'
     | '/migration'
     | '/news'
+    | '/panel'
     | '/partner-pricing'
     | '/pipeline'
     | '/settings'
     | '/simulator'
+    | '/sitemap.xml'
     | '/api/chat'
+    | '/api/panel'
     | '/api/pipeline'
+    | '/legal/$slug'
+    | '/legal/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccessRoute: typeof AccessRoute
   AttachmentsRoute: typeof AttachmentsRoute
   CartRoute: typeof CartRoute
   CatalogueRoute: typeof CatalogueRoute
   ChatRoute: typeof ChatRoute
   ComplianceRoute: typeof ComplianceRoute
   FinanceRoute: typeof FinanceRoute
+  LegalRoute: typeof LegalRouteWithChildren
   LicensingRoute: typeof LicensingRoute
   MigrationRoute: typeof MigrationRoute
   NewsRoute: typeof NewsRoute
+  PanelRoute: typeof PanelRoute
   PartnerPricingRoute: typeof PartnerPricingRoute
   PipelineRoute: typeof PipelineRoute
   SettingsRoute: typeof SettingsRoute
   SimulatorRoute: typeof SimulatorRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiChatRoute: typeof ApiChatRoute
+  ApiPanelRoute: typeof ApiPanelRoute
   ApiPipelineRoute: typeof ApiPipelineRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/simulator': {
       id: '/simulator'
       path: '/simulator'
@@ -268,6 +362,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PartnerPricingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/panel': {
+      id: '/panel'
+      path: '/panel'
+      fullPath: '/panel'
+      preLoaderRoute: typeof PanelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/news': {
       id: '/news'
       path: '/news'
@@ -287,6 +388,13 @@ declare module '@tanstack/react-router' {
       path: '/licensing'
       fullPath: '/licensing'
       preLoaderRoute: typeof LicensingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal': {
+      id: '/legal'
+      path: '/legal'
+      fullPath: '/legal'
+      preLoaderRoute: typeof LegalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/finance': {
@@ -331,6 +439,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AttachmentsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/access': {
+      id: '/access'
+      path: '/access'
+      fullPath: '/access'
+      preLoaderRoute: typeof AccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -338,11 +453,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/legal/': {
+      id: '/legal/'
+      path: '/'
+      fullPath: '/legal/'
+      preLoaderRoute: typeof LegalIndexRouteImport
+      parentRoute: typeof LegalRoute
+    }
+    '/legal/$slug': {
+      id: '/legal/$slug'
+      path: '/$slug'
+      fullPath: '/legal/$slug'
+      preLoaderRoute: typeof LegalSlugRouteImport
+      parentRoute: typeof LegalRoute
+    }
     '/api/pipeline': {
       id: '/api/pipeline'
       path: '/api/pipeline'
       fullPath: '/api/pipeline'
       preLoaderRoute: typeof ApiPipelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/panel': {
+      id: '/api/panel'
+      path: '/api/panel'
+      fullPath: '/api/panel'
+      preLoaderRoute: typeof ApiPanelRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/chat': {
@@ -355,22 +491,39 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface LegalRouteChildren {
+  LegalSlugRoute: typeof LegalSlugRoute
+  LegalIndexRoute: typeof LegalIndexRoute
+}
+
+const LegalRouteChildren: LegalRouteChildren = {
+  LegalSlugRoute: LegalSlugRoute,
+  LegalIndexRoute: LegalIndexRoute,
+}
+
+const LegalRouteWithChildren = LegalRoute._addFileChildren(LegalRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccessRoute: AccessRoute,
   AttachmentsRoute: AttachmentsRoute,
   CartRoute: CartRoute,
   CatalogueRoute: CatalogueRoute,
   ChatRoute: ChatRoute,
   ComplianceRoute: ComplianceRoute,
   FinanceRoute: FinanceRoute,
+  LegalRoute: LegalRouteWithChildren,
   LicensingRoute: LicensingRoute,
   MigrationRoute: MigrationRoute,
   NewsRoute: NewsRoute,
+  PanelRoute: PanelRoute,
   PartnerPricingRoute: PartnerPricingRoute,
   PipelineRoute: PipelineRoute,
   SettingsRoute: SettingsRoute,
   SimulatorRoute: SimulatorRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiChatRoute: ApiChatRoute,
+  ApiPanelRoute: ApiPanelRoute,
   ApiPipelineRoute: ApiPipelineRoute,
 }
 export const routeTree = rootRouteImport
