@@ -20,6 +20,7 @@ import {
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { useCart } from "../lib/cart-store";
+import { useViewerRole, roleLabels, type ViewerRole } from "../lib/viewer-role";
 
 function NotFoundComponent() {
   return (
@@ -203,10 +204,39 @@ function AppShell() {
           Client-side encrypted evidence.<br />
           Adversarial peer review on every bid.
         </div>
+        <ViewerRoleSwitcher />
       </aside>
       <main className="flex-1 min-w-0 overflow-x-hidden">
         <Outlet />
       </main>
+    </div>
+  );
+}
+
+function ViewerRoleSwitcher() {
+  const role = useViewerRole((s) => s.role);
+  const setRole = useViewerRole((s) => s.setRole);
+  const roles: ViewerRole[] = ["client", "reseller", "psl", "owner"];
+  return (
+    <div className="px-5 py-3 border-t border-sidebar-border">
+      <label className="text-[10px] uppercase tracking-widest text-muted-foreground block mb-1">
+        Viewing as
+      </label>
+      <select
+        value={role}
+        onChange={(e) => setRole(e.target.value as ViewerRole)}
+        className="w-full text-xs bg-sidebar-accent text-sidebar-accent-foreground border border-sidebar-border rounded px-2 py-1.5"
+        aria-label="Switch viewer role"
+      >
+        {roles.map((r) => (
+          <option key={r} value={r}>{roleLabels[r]}</option>
+        ))}
+      </select>
+      {role === "owner" && (
+        <div className="mt-2 text-[10px] text-gold leading-snug">
+          Internal-only figures are visible. Never share this view with clients.
+        </div>
+      )}
     </div>
   );
 }
