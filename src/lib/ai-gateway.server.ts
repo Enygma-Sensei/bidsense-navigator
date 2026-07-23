@@ -1,32 +1,33 @@
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 
-// Provider: OpenAI — https://platform.openai.com
-// Uses your existing OpenAI API key. Add it to Replit Secrets:
-//   Name:  OPENAI_API_KEY
-//   Value: your key starting with sk-
+// Provider: OpenRouter — https://openrouter.ai
+// Free account, no credit card. Free models include Gemini Flash and Llama 3.
+// Sign up at openrouter.ai → click your profile → Keys → Create key.
 //
-// To switch to a different model without a code change, set OPENAI_MODEL secret.
-// Default model: gpt-4o-mini (fast and cost-efficient)
+// Add the key as OPENROUTER_API_KEY in Replit Secrets.
+// To switch model without a code change, also set OPENROUTER_MODEL secret.
 
-export const CHAT_MODEL = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
+export const CHAT_MODEL =
+  process.env.OPENROUTER_MODEL ?? "google/gemini-2.0-flash-exp:free";
 
 /**
- * Returns an OpenAI-backed AI provider.
- * Throws a clear error at call-time if the secret is missing —
- * never silently falls back to a hardcoded credential.
+ * Returns an OpenRouter-backed AI provider.
+ * Throws a clear error at call-time if the secret is missing.
  */
 export function createAiProvider() {
-  const key = process.env.OPENAI_API_KEY;
+  const key = process.env.OPENROUTER_API_KEY;
   if (!key) {
     throw new Error(
-      "OPENAI_API_KEY is not set. Add it to Replit Secrets: click the padlock icon (🔒) in the left sidebar → New Secret → Name: OPENAI_API_KEY → Value: your key.",
+      "OPENROUTER_API_KEY is not set. Add it to Replit Secrets.",
     );
   }
   return createOpenAICompatible({
-    name: "openai",
-    baseURL: "https://api.openai.com/v1",
+    name: "openrouter",
+    baseURL: "https://openrouter.ai/api/v1",
     headers: {
       Authorization: `Bearer ${key}`,
+      "HTTP-Referer": "https://bidsense.ai",
+      "X-Title": "BidSense",
     },
   });
 }
