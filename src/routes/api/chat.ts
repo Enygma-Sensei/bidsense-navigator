@@ -1,11 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { streamText } from "ai";
 
-import {
-  createLovableAiGatewayProvider,
-  getLovableAiGatewayRunId,
-  withLovableAiGatewayRunIdHeader,
-} from "../../lib/ai-gateway.server";
+import { createAiProvider, CHAT_MODEL } from "../../lib/ai-gateway.server";
 import { services } from "../../lib/services-catalog";
 
 type Role = "owner" | "reseller" | "psl" | "client";
@@ -63,11 +59,6 @@ export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const key = process.env.LOVABLE_API_KEY;
-        if (!key) {
-          return new Response("Missing LOVABLE_API_KEY", { status: 500 });
-        }
-
         let payload: { messages?: IncomingMessage[]; role?: Role } = {};
         try {
           payload = (await request.json()) as typeof payload;
@@ -83,26 +74,35 @@ export const Route = createFileRoute("/api/chat")({
 
         const history = Array.isArray(payload.messages) ? payload.messages : [];
         const cleaned = history
-          .filter((m) => m && typeof m.content === "string" && (m.role === "user" || m.role === "assistant"))
+          .filter(
+            (m) =>
+              m &&
+              typeof m.content === "string" &&
+              (m.role === "user" || m.role === "assistant"),
+          )
           .slice(-20);
 
-        const initialRunId = getLovableAiGatewayRunId(request);
-        const gateway = createLovableAiGatewayProvider(key, initialRunId);
+        let provider;
+        try {
+          provider = createAiProvider();
+        } catch (err) {
+          const msg = err instanceof Error ? err.message : "AI provider not configured";
+          return new Response(msg, { status: 500 });
+        }
 
         const catalog = catalogForRole(role);
         const sys = `${systemPrompt(role)}\n\nSERVICE_CATALOG:\n${JSON.stringify(catalog)}`;
 
         try {
           const result = streamText({
-            model: gateway("google/gemini-3.6-flash"),
+            model: provider(CHAT_MODEL),
             system: sys,
             messages: cleaned.map((m) => ({ role: m.role, content: m.content })),
           });
 
           const response = result.toUIMessageStreamResponse();
-          // Attach any cache header and forwarded gateway ids after stream creation
           response.headers.set("Cache-Control", "no-store");
-          return withLovableAiGatewayRunIdHeader(response, gateway);
+          return response;
         } catch (err) {
           const msg = err instanceof Error ? err.message : "Chat failed";
           return new Response(msg, { status: 500 });

@@ -1,110 +1,43 @@
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 
-const LOVABLE_AIG_RUN_ID_HEADER = "X-Lovable-AIG-Run-ID";
+// Provider: OpenRouter — https://openrouter.ai
+// Provider-agnostic AI gateway. Free to sign up, no monthly minimum, no lock-in.
+// Free-tier models (no billing required):
+//   google/gemini-2.0-flash-exp:free
+//   meta-llama/llama-3.3-70b-instruct:free
+//   deepseek/deepseek-chat-v3-0324:free
+//
+// Setup: add OPENROUTER_API_KEY to Replit Secrets (Settings → Secrets).
+// To switch models without a code change, also set OPENROUTER_MODEL.
 
-function createRunIdFetch(initialRunId?: string) {
-  let runId = initialRunId?.trim() || undefined;
-  let resolveRunId: (value: string | undefined) => void = () => {};
-  let resolved = false;
-  const ready = new Promise<string | undefined>((r) => {
-    resolveRunId = r;
-  });
-  const publish = (v?: string) => {
-    const next = v?.trim() || undefined;
-    if (!runId && next) runId = next;
-    if (!resolved) {
-      resolved = true;
-      resolveRunId(runId);
-    }
-  };
-  if (runId) publish(runId);
-  return {
-    fetch: async (input: RequestInfo | URL, init?: RequestInit) => {
-      const headers = new Headers(init?.headers);
-      if (runId && !headers.has(LOVABLE_AIG_RUN_ID_HEADER)) headers.set(LOVABLE_AIG_RUN_ID_HEADER, runId);
-      try {
-        const res = await fetch(input, { ...init, headers });
-        publish(res.headers.get(LOVABLE_AIG_RUN_ID_HEADER) ?? undefined);
-        return res;
-      } catch (e) {
-        publish(undefined);
-        throw e;
-      }
-    },
-    getRunId: () => runId,
-    waitForRunId: () => (runId ? Promise.resolve(runId) : ready),
-  };
-}
+export const CHAT_MODEL =
+  process.env.OPENROUTER_MODEL ?? "google/gemini-2.0-flash-exp:free";
 
-export function createLovableAiGatewayProvider(lovableApiKey: string, initialRunId?: string) {
-  const runIdFetch = createRunIdFetch(initialRunId);
-  const provider = createOpenAICompatible({
-    name: "lovable",
-    baseURL: "https://ai.gateway.lovable.dev/v1",
-    headers: {
-      "Lovable-API-Key": lovableApiKey,
-      "X-Lovable-AIG-SDK": "vercel-ai-sdk",
-    },
-    fetch: runIdFetch.fetch,
-  });
-  return Object.assign(provider, {
-    getRunId: runIdFetch.getRunId,
-    waitForRunId: runIdFetch.waitForRunId,
-  });
-}
-
-export function getLovableAiGatewayRunId(request: Request) {
-  return request.headers.get(LOVABLE_AIG_RUN_ID_HEADER)?.trim() || undefined;
-}
-
-export function getLovableAiGatewayResponseHeaders(
-  providerHeaders?: HeadersInit,
-  init?: HeadersInit,
-) {
-  const headers = new Headers(init);
-  new Headers(providerHeaders).forEach((v, n) => {
-    if (n.toLowerCase().startsWith("x-lovable-aig-")) headers.set(n, v);
-  });
-  return headers;
-}
-
-export async function withLovableAiGatewayRunIdHeader(
-  response: Response,
-  gateway: { getRunId: () => string | undefined; waitForRunId: () => Promise<string | undefined> },
-) {
-  if (!response.body) {
-    const runId = gateway.getRunId();
-    const headers = new Headers(response.headers);
-    if (runId) headers.set(LOVABLE_AIG_RUN_ID_HEADER, runId);
-    return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+/**
+ * Returns an OpenRouter-backed AI provider.
+ * Throws a clear error at call-time if the secret is missing —
+ * never silently falls back to a hardcoded credential.
+ */
+export function createAiProvider() {
+  const key = process.env.OPENROUTER_API_KEY;
+  if (!key) {
+    throw new Error(
+      "OPENROUTER_API_KEY is not set. Add it to Replit Secrets (Settings → Secrets).",
+    );
   }
-  const reader = response.body.getReader();
-  const firstChunk = reader.read();
-  const runId = await gateway.waitForRunId();
-  const headers = new Headers(response.headers);
-  if (runId) headers.set(LOVABLE_AIG_RUN_ID_HEADER, runId);
-  const body = new ReadableStream({
-    async start(controller) {
-      try {
-        const first = await firstChunk;
-        if (first.done) return controller.close();
-        controller.enqueue(first.value);
-        while (true) {
-          const c = await reader.read();
-          if (c.done) break;
-          controller.enqueue(c.value);
-        }
-        controller.close();
-      } catch (e) {
-        controller.error(e);
-      }
+  return createOpenAICompatible({
+    name: "openrouter",
+    baseURL: "https://openrouter.ai/api/v1",
+    headers: {
+      Authorization: `Bearer ${key}`,
+      // OpenRouter attribution headers — free-tier requirement
+      "HTTP-Referer": "https://bidsense.ai",
+      "X-Title": "BidSense",
     },
-    cancel: (reason?: unknown) => reader.cancel(reason),
   });
-  return new Response(body, { status: response.status, statusText: response.statusText, headers });
 }
 
-export const CHAT_MODEL = "google/gemini-3.6-flash";
+// ─── Pipeline stage definitions ──────────────────────────────────────────────
 
 export const PERSONAS = {
   proposer: `You are the BidSense AI Bid Draft Agent (SVC-011). Generate a structured tender narrative organised around 3-5 clear win themes. Extract facts strictly from the client's BKR (Bid Knowledge Repository) context. Never invent evidence. Output markdown with sections: Executive Summary, Win Themes, Compliance Evidence, Response Draft. Keep it tight and evaluator-ready.`,

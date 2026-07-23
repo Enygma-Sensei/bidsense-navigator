@@ -1,10 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { streamText } from "ai";
 
-import {
-  createLovableAiGatewayProvider,
-  getLovableAiGatewayRunId,
-} from "../../lib/ai-gateway.server";
+import { createAiProvider, CHAT_MODEL } from "../../lib/ai-gateway.server";
 
 // Panel of experts — each agent works on the SAME tender document with a
 // distinct role, and every claim MUST cite a verbatim excerpt from the
@@ -64,8 +61,14 @@ export const Route = createFileRoute("/api/panel")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const key = process.env.LOVABLE_API_KEY;
-        if (!key) return new Response("Missing LOVABLE_API_KEY", { status: 500 });
+        let provider;
+        try {
+          provider = createAiProvider();
+        } catch (err) {
+          const msg = err instanceof Error ? err.message : "AI provider not configured";
+          return new Response(msg, { status: 500 });
+        }
+
         let body: PanelBody = {};
         try {
           body = (await request.json()) as PanelBody;
@@ -80,14 +83,13 @@ export const Route = createFileRoute("/api/panel")({
         const filename = body.filename ?? "tender-document";
         const experts = safeExpertList(body.experts);
 
-        const runId = getLovableAiGatewayRunId(request);
-        const gateway = createLovableAiGatewayProvider(key, runId);
-        const model = gateway("google/gemini-3.6-flash");
+        const model = provider(CHAT_MODEL);
 
         const encoder = new TextEncoder();
         const stream = new ReadableStream<Uint8Array>({
           async start(controller) {
-            const send = (obj: unknown) => controller.enqueue(encoder.encode(JSON.stringify(obj) + "\n"));
+            const send = (obj: unknown) =>
+              controller.enqueue(encoder.encode(JSON.stringify(obj) + "\n"));
             send({ type: "panel_start", experts, filename });
             for (const expert of experts) {
               send({ type: "expert_start", expert });

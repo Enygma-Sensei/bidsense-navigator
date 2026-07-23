@@ -14,6 +14,13 @@ export interface CompetitorNewsItem {
   competitor?: string;
   framework?: string;
   url?: string;
+  /**
+   * true = this item was locally generated as a placeholder, not fetched from
+   * a live source. The UI must display a "simulated" or "no live feed connected"
+   * label whenever this flag is set — §9 #7 of the Known Corrections Ledger
+   * prohibits presenting simulated data as live regulatory intelligence.
+   */
+  simulated?: boolean;
 }
 
 const SEED_NEWS: CompetitorNewsItem[] = [
@@ -28,14 +35,19 @@ let lastRefreshed = Date.now();
 const listeners = new Set<() => void>();
 
 function generateNextItem(): CompetitorNewsItem {
-  const templates = [
-    { source: "Contracts Finder", headline: "New local authority ITT published", summary: "A council has opened a £850k-£1.4m professional services tender with a 21-day return.", framework: "Local Authority" },
-    { source: "Find a Tender", headline: "Framework award notice — refreshed supplier list", summary: "An updated supplier list was published on a national framework relevant to compliance advisory.", framework: "Crown Commercial" },
-    { source: "Competitor watch", headline: "Competitor updated pricing page", summary: "Movement detected on a direct competitor's public pricing — inspect and re-benchmark.", competitor: "MarketScan" },
-    { source: "UK Gov News", headline: "PPN update issued", summary: "A new Procurement Policy Note affecting social value or carbon reporting has been published." },
+  // §9 #7 — simulated flag required on all locally-generated items.
+  // These are placeholder templates. Do NOT remove the simulated flag or
+  // present these as live regulatory intelligence — see Known Corrections
+  // Ledger §9 #7. Replace with a real Contracts Finder / Find a Tender API
+  // call before going live; until then the UI must show a "no live feed"
+  // disclaimer whenever simulated: true items are displayed.
+  const templates: Omit<CompetitorNewsItem, "id" | "ts" | "simulated">[] = [
+    { source: "Contracts Finder (simulated)", headline: "New local authority ITT published", summary: "A council has opened a £850k-£1.4m professional services tender with a 21-day return.", framework: "Local Authority" },
+    { source: "Find a Tender (simulated)", headline: "Framework award notice — refreshed supplier list", summary: "An updated supplier list was published on a national framework relevant to compliance advisory.", framework: "Crown Commercial" },
+    { source: "Competitor watch (simulated)", headline: "Competitor updated pricing page", summary: "Movement detected on a direct competitor's public pricing — inspect and re-benchmark.", competitor: "MarketScan" },
   ];
   const t = templates[Math.floor(Math.random() * templates.length)];
-  return { id: `n-${crypto.randomUUID()}`, ts: new Date().toISOString(), ...t };
+  return { id: `n-${crypto.randomUUID()}`, ts: new Date().toISOString(), simulated: true, ...t };
 }
 
 function refresh() {

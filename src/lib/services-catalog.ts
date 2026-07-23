@@ -77,3 +77,15 @@ export const categories: ServiceCategory[] = [
 export function findService(id: string) {
   return services.find((s) => s.id === id);
 }
+
+// §9 #5 — Service count invariant (Known Corrections Ledger).
+// The canonical catalogue has exactly 30 services. This assertion fires loudly
+// at module load time if a future edit causes the count to drift — it must
+// never be silenced. If you intentionally add or remove a service, update
+// the expected count here and leave a comment explaining why.
+if (services.length !== 30) {
+  throw new Error(
+    `BidSense catalogue integrity: expected 30 services, found ${services.length}. ` +
+      `Update the assertion in services-catalog.ts if the change is intentional.`,
+  );
+}

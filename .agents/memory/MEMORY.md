@@ -1,0 +1,2 @@
+- [AI provider swap](ai-provider-swap.md) — Lovable gateway removed; OpenRouter replaces it via OPENROUTER_API_KEY secret
+- [Known corrections ledger status](corrections-ledger.md) — §9 audit status across all 10 items for this codebase
