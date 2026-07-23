@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { streamText } from "ai";
 
-import { createAiProvider, CHAT_MODEL } from "../../lib/ai-gateway.server";
+import { getModel } from "../../lib/ai-gateway.server";
 import { services } from "../../lib/services-catalog";
 
 type Role = "owner" | "reseller" | "psl" | "client";
@@ -82,9 +82,9 @@ export const Route = createFileRoute("/api/chat")({
           )
           .slice(-20);
 
-        let provider;
+        let model;
         try {
-          provider = createAiProvider();
+          model = getModel();
         } catch (err) {
           const msg = err instanceof Error ? err.message : "AI provider not configured";
           return new Response(msg, { status: 500 });
@@ -95,7 +95,7 @@ export const Route = createFileRoute("/api/chat")({
 
         try {
           const result = streamText({
-            model: provider(CHAT_MODEL),
+            model,
             system: sys,
             messages: cleaned.map((m) => ({ role: m.role, content: m.content })),
           });

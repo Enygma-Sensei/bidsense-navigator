@@ -2,8 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { streamText } from "ai";
 
 import {
-  createAiProvider,
-  CHAT_MODEL,
+  getModel,
   PERSONAS,
   STAGES,
   type Stage,
@@ -18,9 +17,9 @@ export const Route = createFileRoute("/api/pipeline")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        let provider;
+        let model;
         try {
-          provider = createAiProvider();
+          model = getModel();
         } catch (err) {
           const message = err instanceof Error ? err.message : "AI provider not configured";
           return new Response(
@@ -30,7 +29,6 @@ export const Route = createFileRoute("/api/pipeline")({
         }
 
         const { brief = "", bkr = "" } = (await request.json()) as PipelineBody;
-        const model = provider(CHAT_MODEL);
 
         const stream = new ReadableStream<Uint8Array>({
           async start(controller) {

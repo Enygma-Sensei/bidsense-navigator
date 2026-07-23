@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { streamText } from "ai";
 
-import { createAiProvider, CHAT_MODEL } from "../../lib/ai-gateway.server";
+import { getModel } from "../../lib/ai-gateway.server";
 
 // Panel of experts — each agent works on the SAME tender document with a
 // distinct role, and every claim MUST cite a verbatim excerpt from the
@@ -61,9 +61,9 @@ export const Route = createFileRoute("/api/panel")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        let provider;
+        let model;
         try {
-          provider = createAiProvider();
+          model = getModel();
         } catch (err) {
           const msg = err instanceof Error ? err.message : "AI provider not configured";
           return new Response(msg, { status: 500 });
@@ -82,8 +82,6 @@ export const Route = createFileRoute("/api/panel")({
         const clipped = doc.slice(0, 60_000);
         const filename = body.filename ?? "tender-document";
         const experts = safeExpertList(body.experts);
-
-        const model = provider(CHAT_MODEL);
 
         const encoder = new TextEncoder();
         const stream = new ReadableStream<Uint8Array>({
