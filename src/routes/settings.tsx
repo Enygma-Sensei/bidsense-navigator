@@ -16,8 +16,10 @@ export const Route = createFileRoute("/settings")({
       { property: "og:title", content: "White-label Branding — BidSense" },
       { property: "og:description", content: "Reseller white-label branding controls for BidSense." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/settings" },
       { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "/settings" }],
   }),
   component: Settings,
 });

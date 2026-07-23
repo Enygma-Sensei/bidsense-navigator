@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useState } from "react";
-import { FileText, Paperclip, Trash2, Upload, AlertTriangle, FileSpreadsheet, FileImage, FileType2, FileArchive } from "lucide-react";
+import { FileText, Paperclip, Trash2, Upload, TriangleAlert as AlertTriangle, FileSpreadsheet, FileImage, FileType as FileType2, FileArchive } from "lucide-react";
 
 import { humanBytes, parseAttachment, type ParsedAttachment } from "../lib/file-parser";
 
@@ -16,8 +16,10 @@ export const Route = createFileRoute("/attachments")({
       { property: "og:title", content: "Tender Attachments — BidSense" },
       { property: "og:description", content: "Parse tender documents client-side for the BidSense AI panel." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/attachments" },
       { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "/attachments" }],
   }),
   component: Attachments,
 });
@@ -102,9 +104,9 @@ function Attachments() {
           const open = openId === id;
           return (
             <div key={id} className="rounded-lg border border-border bg-card overflow-hidden">
-              <button
+              <div
                 onClick={() => setOpenId(open ? null : id)}
-                className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-secondary/40"
+                className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-secondary/40 cursor-pointer"
               >
                 <KindIcon kind={it.kind} />
                 <div className="flex-1 min-w-0">
@@ -126,11 +128,11 @@ function Attachments() {
                     setItems((prev) => prev.filter((_, i) => i !== idx));
                   }}
                   className="text-muted-foreground hover:text-destructive"
-                  aria-label="Remove"
+                  aria-label={`Remove ${it.file.name}`}
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>
-              </button>
+              </div>
               {open && <Preview item={it} />}
             </div>
           );

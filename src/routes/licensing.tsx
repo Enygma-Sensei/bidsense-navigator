@@ -16,8 +16,10 @@ export const Route = createFileRoute("/licensing")({
       { property: "og:title", content: "Licensing & Seats — BidSense" },
       { property: "og:description", content: "Seat limits, expiry reminders and trial periods for BidSense tenants." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/licensing" },
       { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "/licensing" }],
   }),
   component: Licensing,
 });

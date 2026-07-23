@@ -6,13 +6,24 @@ BidSense helps small and mid-sized suppliers win UK public-sector work without c
 
 ## Pages
 
-- [Dashboard](/): Command centre — active bids, compliance HUD, pricing guardrails.
-- [Service Catalogue](/catalogue): Full menu of BidSense services with plain-language explanations, ISO clause mapping and cross-sell suggestions.
-- [BYOB Cart](/cart): Build-your-own-bundle pricing with subcontractor-floor protection and UK/international payment options.
-- [Operational Simulator](/simulator): Model bid throughput, win rate and margin under different service mixes.
-- [Compliance & ISO HUD](/compliance): The ten ISO standards BidSense enforces, with plain-English explanations and worked examples.
-- [Adversarial Pipeline](/pipeline): Four-agent bid workflow — Proposer, Challenger, Actuary, Auditor.
+- [Dashboard](/): Command centre — active bids, compliance HUD, pricing guardrails, ISO standards enforced.
+- [Service Catalogue](/catalogue): 30 services mapped to ISO clauses with plain-language explanations, cross-sell suggestions and subcontractor-floor-protected pricing.
+- [Service Concierge](/chat): AI concierge that recommends BidSense services with strict confidentiality guardrails — internal costs never disclosed to clients.
+- [BYOB Cart](/cart): Build-your-own-bundle pricing with subcontractor-floor protection, 5-tier discount ladder and UK/international payment options.
+- [Operational Simulator](/simulator): Model bid throughput, win rate, EBITDA and margin under different service mixes.
+- [Compliance & ISO HUD](/compliance): The ten ISO management-system standards BidSense enforces, with plain-English explanations, worked examples and legal references.
+- [Adversarial Pipeline](/pipeline): Four-agent bid workflow — Proposer, Challenger, Actuary, Auditor. Every AI bid passes adversarial peer review before submission.
+- [Panel of Experts](/panel): Five specialist AI reviewers plus chair synthesis on tender documents, with mandatory verbatim citation.
+- [Tender Attachments](/attachments): Drop tender documents (Word, Excel, CSV, JSON, PDF, images) for client-side text extraction feeding the AI agent panel.
+- [Market Radar](/news): Live UK tender market intelligence — Contracts Finder, Find a Tender, PPN updates and competitor movements.
+- [Partner Pricing](/partner-pricing): Reseller and PSL partner pricing calculator with minimum multiplier enforcement and owner-visible audit trail.
+- [Licensing & Seats](/licensing): Seat allocation, expiry reminders and trial windows for BidSense tenants.
+- [Financial Records](/finance): HMRC-ready invoice ledger with VAT breakdown, sequential numbering and CSV export for Making Tax Digital.
+- [Migration Bundle](/migration): Download a portable BidSense bundle — setup script, environment templates and deployment guide.
+- [Branding](/settings): Reseller white-label controls — brand name, tagline, logo, primary colour and support contact.
+- [Access Control](/access): Role-based access matrix — what owner, resellers, PSLs and clients can see and do.
+- [Legal & Trust](/legal): Privacy Notice, Terms of Service, Data Processing Addendum, SLA and Security posture for UK tender procurement teams.
 
 ## Optional
 
-- [Publishing sitemap](/sitemap.xml)
+- [Sitemap](/sitemap.xml)

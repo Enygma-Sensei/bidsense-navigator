@@ -8,25 +8,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
-import {
-  LayoutDashboard,
-  Package,
-  ShoppingCart,
-  LineChart,
-  ShieldCheck,
-  Bot,
-  Settings as SettingsIcon,
-  BadgePoundSterling,
-  MessageCircle,
-  Paperclip,
-  Newspaper,
-  KeyRound,
-  Receipt,
-  PackageOpen,
-  Users,
-  ScrollText,
-  Lock,
-} from "lucide-react";
+import { LayoutDashboard, Package, ShoppingCart, ChartLine as LineChart, ShieldCheck, Bot, Settings as SettingsIcon, BadgePoundSterling, MessageCircle, Paperclip, Newspaper, KeyRound, Receipt, PackageOpen, Users, ScrollText, Lock } from "lucide-react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -105,7 +87,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Command centre for BidSense: adversarial peer-reviewed AI bidding, subcontractor-floor-protected pricing, and ISO-aligned compliance for UK public-sector SMEs.",
       },
-      { name: "author", content: "Lovable" },
+      { name: "author", content: "BidSense" },
       { property: "og:title", content: "BidSense Dashboard — Compliance-First Tender Command" },
       {
         property: "og:description",
@@ -113,8 +95,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Command centre for BidSense: adversarial peer-reviewed AI bidding, subcontractor-floor-protected pricing, and ISO-aligned compliance for UK public-sector SMEs.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:site", content: "@BidSense" },
       { name: "twitter:title", content: "BidSense Dashboard — Compliance-First Tender Command" },
       { name: "twitter:description", content: "Command centre for BidSense: adversarial peer-reviewed AI bidding, subcontractor-floor-protected pricing, and ISO-aligned compliance for UK public-sector SMEs." },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/c901f833-a19d-47e9-aced-38ccea7fcb38" },
@@ -126,6 +109,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "canonical", href: "/" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "BidSense",
+          description: "Compliance-first tender intelligence platform for UK public-sector SMEs, with adversarial peer-reviewed AI bidding, subcontractor-floor-protected pricing, and ISO-aligned governance.",
+          areaServed: "United Kingdom",
+          knowsAbout: ["ISO 27001", "ISO 9001", "ISO 14001", "ISO 45001", "ISO 27017", "ISO 27018", "ISO 20000", "ISO 22301", "ISO 27005", "ISO 30414", "GDPR", "Procurement Act 2023", "Cyber Essentials Plus"],
+        }),
+      },
     ],
   }),
   shellComponent: RootShell,

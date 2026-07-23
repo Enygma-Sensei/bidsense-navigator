@@ -9,7 +9,13 @@ export const Route = createFileRoute("/simulator")({
     meta: [
       { title: "Operational Profit Simulator — BidSense" },
       { name: "description", content: "Real-time BidSense EBITDA simulator. Model SMEs, C2 partners, enterprise transformations, and SME accelerators against protected subcontractor payouts." },
+      { property: "og:title", content: "Operational Profit Simulator — BidSense" },
+      { property: "og:description", content: "Real-time EBITDA simulator with protected subcontractor payouts." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/simulator" },
+      { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "/simulator" }],
   }),
   component: Simulator,
 });

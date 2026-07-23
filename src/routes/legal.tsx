@@ -15,8 +15,10 @@ export const Route = createFileRoute("/legal")({
       { property: "og:title", content: "Legal & Trust Centre — BidSense" },
       { property: "og:description", content: "Privacy, DPA, SLA and Security posture for BidSense." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/legal" },
       { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "/legal" }],
   }),
   component: LegalLayout,
 });

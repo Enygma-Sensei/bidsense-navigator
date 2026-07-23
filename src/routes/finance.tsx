@@ -16,8 +16,10 @@ export const Route = createFileRoute("/finance")({
       { property: "og:title", content: "Tax-compliant Financial Records — BidSense" },
       { property: "og:description", content: "MTD-ready invoice ledger, VAT breakdown and CSV export." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/finance" },
       { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "/finance" }],
   }),
   component: Finance,
 });

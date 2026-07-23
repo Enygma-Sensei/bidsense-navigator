@@ -14,7 +14,13 @@ export const Route = createFileRoute("/")({
         content:
           "Command centre for BidSense: adversarial peer-reviewed AI bidding, subcontractor-floor-protected pricing, and ISO-aligned compliance for UK public-sector SMEs.",
       },
+      { property: "og:title", content: "BidSense Dashboard — Compliance-First Tender Command" },
+      { property: "og:description", content: "Adversarial peer-reviewed AI bidding, subcontractor-floor-protected pricing, and ISO-aligned compliance for UK public-sector SMEs." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "/" }],
   }),
   component: Dashboard,
 });

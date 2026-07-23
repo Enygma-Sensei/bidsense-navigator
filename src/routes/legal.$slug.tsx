@@ -17,8 +17,10 @@ export const Route = createFileRoute("/legal/$slug")({
         { property: "og:title", content: `${loaderData.title} — BidSense` },
         { property: "og:description", content: loaderData.intro },
         { property: "og:type", content: "article" },
+        { property: "og:url", content: `/legal/${loaderData.slug}` },
         { name: "twitter:card", content: "summary" },
       ],
+      links: [{ rel: "canonical", href: `/legal/${loaderData.slug}` }],
     };
   },
   notFoundComponent: () => <div className="text-sm">Policy not found.</div>,

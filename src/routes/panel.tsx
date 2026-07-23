@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useRef } from "react";
-import { Users, Upload, Loader2, CheckCircle2, AlertTriangle, Gavel } from "lucide-react";
+import { Users, Upload, Loader as Loader2, CircleCheck as CheckCircle2, TriangleAlert as AlertTriangle, Gavel } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
 import { parseAttachment } from "../lib/file-parser";
@@ -34,8 +34,10 @@ export const Route = createFileRoute("/panel")({
       { property: "og:title", content: "Panel of Experts — Tender Document Review" },
       { property: "og:description", content: "Five specialist reviewers plus chair synthesis on your tender document, with mandatory citation." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/panel" },
       { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "/panel" }],
   }),
   component: Panel,
 });

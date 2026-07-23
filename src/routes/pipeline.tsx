@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Bot, Loader2, ShieldAlert, Scale, ScrollText, CheckCircle2 } from "lucide-react";
+import { Bot, Loader as Loader2, ShieldAlert, Scale, ScrollText, CircleCheck as CheckCircle2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
 import { STAGES, STAGE_LABELS, type Stage } from "../lib/ai-gateway.server";
@@ -10,7 +10,13 @@ export const Route = createFileRoute("/pipeline")({
     meta: [
       { title: "Adversarial Peer-Review Pipeline — BidSense" },
       { name: "description", content: "The BidSense anti-hallucination shield. Proposer → Challenger → Actuary → Auditor. Every AI bid passes the four-agent adversarial pipeline before submission." },
+      { property: "og:title", content: "Adversarial Peer-Review Pipeline — BidSense" },
+      { property: "og:description", content: "Proposer → Challenger → Actuary → Auditor. Every AI bid passes the four-agent adversarial pipeline before submission." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/pipeline" },
+      { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "/pipeline" }],
   }),
   component: PipelinePage,
 });

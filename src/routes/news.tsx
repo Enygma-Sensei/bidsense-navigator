@@ -15,8 +15,10 @@ export const Route = createFileRoute("/news")({
       { property: "og:title", content: "Tender Market & Competitor Radar — BidSense" },
       { property: "og:description", content: "Live UK tender opportunities and competitor watch." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/news" },
       { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "/news" }],
   }),
   component: News,
 });

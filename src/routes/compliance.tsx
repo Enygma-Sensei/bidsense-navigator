@@ -8,7 +8,34 @@ export const Route = createFileRoute("/compliance")({
   head: () => ({
     meta: [
       { title: "Compliance & ISO HUD — BidSense" },
-      { name: "description", content: "The ten ISO management-system standards enforced by BidSense's Integrated Management System, plus GDPR Art 28(2), SI 2018/480, UCTA 1977, and Procurement Act 2023." },
+      { name: "description", content: "The ten ISO standards BidSense enforces, plus GDPR Art 28(2), SI 2018/480, UCTA 1977, and Procurement Act 2023 references." },
+      { property: "og:title", content: "Compliance & ISO HUD — BidSense" },
+      { property: "og:description", content: "Ten ISO management-system standards enforced by BidSense, with plain-English explanations and legal references." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/compliance" },
+      { name: "twitter:card", content: "summary" },
+    ],
+    links: [{ rel: "canonical", href: "/compliance" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: [
+            {
+              "@type": "Question",
+              name: "Which ISO standards does BidSense enforce?",
+              acceptedAnswer: { "@type": "Answer", text: "BidSense enforces ISO 27001, ISO 27017, ISO 27018, ISO 27005, ISO 20000, ISO 22301, ISO 9001, ISO 14001, ISO 45001, and ISO 30414." },
+            },
+            {
+              "@type": "Question",
+              name: "Which UK laws does BidSense reference?",
+              acceptedAnswer: { "@type": "Answer", text: "GDPR Article 28(2), SI 2018/480 (NIS Regulations), UCTA 1977, and the Procurement Act 2023." },
+            },
+          ],
+        }),
+      },
     ],
   }),
   component: Compliance,

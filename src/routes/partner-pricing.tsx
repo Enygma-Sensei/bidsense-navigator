@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AlertTriangle, ScrollText, ShieldCheck } from "lucide-react";
+import { TriangleAlert as AlertTriangle, ScrollText, ShieldCheck } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { services, findService } from "../lib/services-catalog";
@@ -25,8 +25,10 @@ export const Route = createFileRoute("/partner-pricing")({
       { property: "og:title", content: "Partner Pricing & Audit — BidSense" },
       { property: "og:description", content: "Reseller and PSL pricing floor enforcement with owner audit trail." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/partner-pricing" },
       { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "/partner-pricing" }],
   }),
   component: PartnerPricing,
 });

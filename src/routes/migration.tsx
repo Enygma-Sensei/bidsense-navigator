@@ -15,8 +15,10 @@ export const Route = createFileRoute("/migration")({
       { property: "og:title", content: "Migration Bundle — BidSense" },
       { property: "og:description", content: "Portable BidSense deployment bundle with setup script and env templates." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/migration" },
       { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "/migration" }],
   }),
   component: Migration,
 });

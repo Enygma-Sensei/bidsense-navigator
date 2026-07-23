@@ -17,8 +17,10 @@ export const Route = createFileRoute("/chat")({
       { property: "og:title", content: "Service Concierge Chatbot — BidSense" },
       { property: "og:description", content: "AI concierge that recommends BidSense services with strict confidentiality guardrails." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/chat" },
       { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "/chat" }],
   }),
   component: Chat,
 });

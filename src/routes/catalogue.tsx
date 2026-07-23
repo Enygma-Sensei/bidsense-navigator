@@ -12,6 +12,29 @@ export const Route = createFileRoute("/catalogue")({
     meta: [
       { title: "Service Catalogue — BidSense" },
       { name: "description", content: "30 BidSense services mapped to ISO clauses. Advisory, transactional AI bidding, high-stakes human & legal, and SaaS partner subscriptions." },
+      { property: "og:title", content: "Service Catalogue — BidSense" },
+      { property: "og:description", content: "30 BidSense services mapped to ISO clauses with subcontractor-floor-protected pricing." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/catalogue" },
+      { name: "twitter:card", content: "summary" },
+    ],
+    links: [{ rel: "canonical", href: "/catalogue" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Service",
+          serviceType: "Tender intelligence and compliance consulting",
+          provider: { "@type": "Organization", name: "BidSense" },
+          areaServed: "United Kingdom",
+          hasOfferCatalog: {
+            "@type": "OfferCatalog",
+            name: "BidSense Service Catalogue",
+            numberOfItems: 30,
+          },
+        }),
+      },
     ],
   }),
   component: Catalogue,
@@ -105,7 +128,7 @@ function ServiceCard({ s, inCart, onToggle }: { s: Service; inCart: boolean; onT
         <div className="text-xs uppercase tracking-widest text-muted-foreground">{s.category}</div>
         <span className="text-[10px] px-1.5 py-0.5 rounded bg-secondary text-secondary-foreground">{s.hil ? "Human-in-loop" : "AI-only"}</span>
       </div>
-      <h3 className="font-semibold leading-snug">{s.name}</h3>
+      <h2 className="font-semibold leading-snug text-base">{s.name}</h2>
       <p className="text-sm text-muted-foreground flex-1">{s.plain ?? s.desc}</p>
 
       <button

@@ -19,8 +19,10 @@ export const Route = createFileRoute("/access")({
       { property: "og:title", content: "Access Control Matrix — BidSense" },
       { property: "og:description", content: "RBAC matrix and client-forbidden list for BidSense." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/access" },
       { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "/access" }],
   }),
   component: AccessPage,
 });

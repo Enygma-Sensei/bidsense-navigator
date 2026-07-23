@@ -1,16 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  AlertTriangle,
-  Lightbulb,
-  ShoppingCart,
-  Trash2,
-  Plus,
-  ArrowRight,
-  CreditCard,
-  Landmark,
-  Wallet,
-  Globe,
-} from "lucide-react";
+import { TriangleAlert as AlertTriangle, Lightbulb, ShoppingCart, Trash2, Plus, ArrowRight, CreditCard, Landmark, Wallet, Globe } from "lucide-react";
 import { useMemo } from "react";
 
 import { services, findService } from "../lib/services-catalog";
@@ -24,7 +13,13 @@ export const Route = createFileRoute("/cart")({
     meta: [
       { title: "BYOB Cart — BidSense" },
       { name: "description", content: "Build-your-own-bundle cart. Subcontractor-floor-protected pricing with a 5-tier bundle discount ladder and reactive warning/recommendation banners." },
+      { property: "og:title", content: "BYOB Cart — BidSense" },
+      { property: "og:description", content: "Build-your-own-bundle cart with subcontractor-floor-protected pricing and 5-tier discount ladder." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/cart" },
+      { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "/cart" }],
   }),
   component: Cart,
 });
