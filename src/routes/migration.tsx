@@ -52,22 +52,24 @@ bun run build
 cat <<EOM
 
 BidSense is ready.
-  - Fill in .env with your keys (Supabase, Stripe, LOVABLE_API_KEY)
+  - Fill in .env with your keys (Supabase, Stripe, OPENAI_API_KEY)
   - Start dev:   bun run dev
   - Start prod:  bun run start
 EOM
 `;
 
 const ENV_TEMPLATE = `# BidSense environment template
-# ----- Supabase (Lovable Cloud) -----
+# ----- Supabase -----
 SUPABASE_URL=
 SUPABASE_PUBLISHABLE_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 VITE_SUPABASE_URL=
 VITE_SUPABASE_PUBLISHABLE_KEY=
 
-# ----- AI Gateway -----
-LOVABLE_API_KEY=
+# ----- AI (OpenAI) -----
+OPENAI_API_KEY=
+# Optional: override model (default is gpt-4o-mini)
+# OPENAI_MODEL=gpt-4o
 
 # ----- Stripe -----
 STRIPE_SECRET_KEY=
@@ -92,7 +94,7 @@ Everything you need to redeploy BidSense on your own infrastructure.
 ## Steps
 1. Extract the bundle.
 2. Run \`./setup.sh /path/to/deploy\`.
-3. Fill in .env with Supabase, Stripe and LOVABLE_API_KEY values.
+3. Fill in .env with Supabase, Stripe and OPENAI_API_KEY values.
 4. \`bun run dev\` locally, or \`bun run build && bun run start\` in production.
 5. Deploy to any Node/Bun-compatible host (Cloudflare Workers via Wrangler, Vercel, Fly.io).
 

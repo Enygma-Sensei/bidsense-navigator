@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { RefreshCw, Newspaper, ExternalLink, Radio } from "lucide-react";
+import { RefreshCw, Newspaper, ExternalLink, Radio, AlertCircle } from "lucide-react";
 
 import { useCompetitorNews } from "../lib/live-feeds";
 
@@ -40,8 +40,8 @@ function News() {
           </p>
         </div>
         <div className="text-right space-y-2">
-          <div className="inline-flex items-center gap-1 text-[10px] uppercase tracking-widest text-gold">
-            <Radio className="h-3 w-3 animate-pulse" /> Live
+          <div className="inline-flex items-center gap-1 text-[10px] uppercase tracking-widest text-amber-400">
+            <AlertCircle className="h-3 w-3" /> Demo feed — no live connector yet
           </div>
           <button
             onClick={refresh}
@@ -64,6 +64,11 @@ function News() {
               <time>{new Date(it.ts).toLocaleString("en-GB")}</time>
               {it.framework && <><span>·</span><span>{it.framework}</span></>}
               {it.competitor && <><span>·</span><span className="text-warning">{it.competitor}</span></>}
+              {it.simulated && (
+                <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-amber-400/10 text-amber-400 border border-amber-400/30">
+                  <AlertCircle className="h-2.5 w-2.5" /> simulated
+                </span>
+              )}
             </div>
             <div className="mt-1 font-semibold text-sm">{it.headline}</div>
             <p className="mt-1 text-sm text-muted-foreground">{it.summary}</p>

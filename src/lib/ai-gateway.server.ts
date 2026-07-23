@@ -1,38 +1,32 @@
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 
-// Provider: OpenRouter — https://openrouter.ai
-// Provider-agnostic AI gateway. Free to sign up, no monthly minimum, no lock-in.
-// Free-tier models (no billing required):
-//   google/gemini-2.0-flash-exp:free
-//   meta-llama/llama-3.3-70b-instruct:free
-//   deepseek/deepseek-chat-v3-0324:free
+// Provider: OpenAI — https://platform.openai.com
+// Uses your existing OpenAI API key. Add it to Replit Secrets:
+//   Name:  OPENAI_API_KEY
+//   Value: your key starting with sk-
 //
-// Setup: add OPENROUTER_API_KEY to Replit Secrets (Settings → Secrets).
-// To switch models without a code change, also set OPENROUTER_MODEL.
+// To switch to a different model without a code change, set OPENAI_MODEL secret.
+// Default model: gpt-4o-mini (fast and cost-efficient)
 
-export const CHAT_MODEL =
-  process.env.OPENROUTER_MODEL ?? "google/gemini-2.0-flash-exp:free";
+export const CHAT_MODEL = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
 
 /**
- * Returns an OpenRouter-backed AI provider.
+ * Returns an OpenAI-backed AI provider.
  * Throws a clear error at call-time if the secret is missing —
  * never silently falls back to a hardcoded credential.
  */
 export function createAiProvider() {
-  const key = process.env.OPENROUTER_API_KEY;
+  const key = process.env.OPENAI_API_KEY;
   if (!key) {
     throw new Error(
-      "OPENROUTER_API_KEY is not set. Add it to Replit Secrets (Settings → Secrets).",
+      "OPENAI_API_KEY is not set. Add it to Replit Secrets: click the padlock icon (🔒) in the left sidebar → New Secret → Name: OPENAI_API_KEY → Value: your key.",
     );
   }
   return createOpenAICompatible({
-    name: "openrouter",
-    baseURL: "https://openrouter.ai/api/v1",
+    name: "openai",
+    baseURL: "https://api.openai.com/v1",
     headers: {
       Authorization: `Bearer ${key}`,
-      // OpenRouter attribution headers — free-tier requirement
-      "HTTP-Referer": "https://bidsense.ai",
-      "X-Title": "BidSense",
     },
   });
 }

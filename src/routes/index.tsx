@@ -55,7 +55,7 @@ function Dashboard() {
         <NavCard to="/catalogue" icon={ScrollText} title="Service Catalogue" body="30 services mapped to specific ISO clauses. Add to your bundle from any card." />
         <NavCard to="/cart" icon={Coins} title="BYOB Shopping Cart" body="Subcontractor-floor-protected bundle pricing with a 5-tier discount ladder." />
         <NavCard to="/simulator" icon={ShieldCheck} title="Operational Profit Simulator" body="Model EBITDA against SMEs, C2 partners, enterprise transformations and accelerators." />
-        <NavCard to="/pipeline" icon={Bot} title="Adversarial Peer-Review Pipeline" body="Proposer → Challenger → Actuary → Auditor. Streamed live via Lovable AI." />
+        <NavCard to="/pipeline" icon={Bot} title="Adversarial Peer-Review Pipeline" body="Proposer → Challenger → Actuary → Auditor. Streamed live via BidSense AI." />
       </div>
     </div>
   );

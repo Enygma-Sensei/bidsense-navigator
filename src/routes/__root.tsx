@@ -11,7 +11,7 @@ import { useEffect, type ReactNode } from "react";
 import { LayoutDashboard, Package, ShoppingCart, ChartLine as LineChart, ShieldCheck, Bot, Settings as SettingsIcon, BadgePoundSterling, MessageCircle, Paperclip, Newspaper, KeyRound, Receipt, PackageOpen, Users, ScrollText, Lock } from "lucide-react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
+import { reportLovableError } from "../lib/error-reporting";
 import { useCart } from "../lib/cart-store";
 import { useViewerRole, roleLabels, type ViewerRole } from "../lib/viewer-role";
 import { useResellerBrand } from "../lib/reseller-brand";
