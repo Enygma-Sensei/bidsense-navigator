@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-// TODO: replace with the project's canonical URL once a domain is assigned.
-const BASE_URL = "";
+const BASE_URL = "https://bidsense.ai";
 
 interface Entry {
   path: string;

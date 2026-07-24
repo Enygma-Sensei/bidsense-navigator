@@ -25,9 +25,9 @@ export const POLICIES: PolicyDoc[] = [
       { heading: "Lawful bases", body: "Contract (delivery of the service), legitimate interests (security monitoring, fraud prevention, product improvement), legal obligation (financial records under HMRC MTD), and consent for optional marketing communications." },
       { heading: "Retention", body: "Account data: for the life of the contract plus 24 months. Uploaded documents: 12 months by default, exportable and deletable earlier on request. Financial records: 6 years to satisfy HMRC MTD retention." },
       { heading: "Sharing", body: "Sub-processors listed in our sub-processor register (Stripe for payments, Supabase for database & auth, OpenAI for model inference). We do not sell personal data." },
-      { heading: "Your rights", body: "Access, rectification, erasure, restriction, portability, objection, and complaint to the ICO (ico.org.uk). Contact privacy@bidsense.example to exercise a right; we respond within one calendar month." },
+      { heading: "Your rights", body: "Access, rectification, erasure, restriction, portability, objection, and complaint to the ICO (ico.org.uk). Contact privacy@bidsense.ai to exercise a right; we respond within one calendar month." },
       { heading: "International transfers", body: "Where a sub-processor is outside the UK, transfers are protected by the UK Addendum to the EU SCCs and/or an adequacy decision." },
-      { heading: "Contact", body: "privacy@bidsense.example — the platform owner acts as Data Protection Point of Contact and appoints a DPO when the ICO threshold is met." },
+      { heading: "Contact", body: "privacy@bidsense.ai — the platform owner acts as Data Protection Point of Contact and appoints a DPO when the ICO threshold is met." },
     ],
   },
   {

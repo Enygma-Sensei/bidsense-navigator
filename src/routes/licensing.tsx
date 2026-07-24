@@ -34,12 +34,14 @@ interface Tenant {
   owner: "owner" | "reseller" | "psl";
 }
 
+// ── Replace these rows with your real tenants. ───────────────────────────────
+// This is illustrative demo data showing the seat / renewal / trial structure.
+// When you connect a database (e.g. Supabase), tenants will be fetched live.
 const DEMO_TENANTS: Tenant[] = [
-  { id: "t-001", name: "BidSense Direct (owner)", plan: "Enterprise", seats: { used: 6, limit: 25 }, renewsOn: iso(365), owner: "owner" },
-  { id: "t-002", name: "Northgate Bid Advisory", plan: "Growth", seats: { used: 4, limit: 5 }, renewsOn: iso(42), owner: "reseller" },
-  { id: "t-003", name: "Merseyside Compliance PSL", plan: "Scale", seats: { used: 9, limit: 10 }, renewsOn: iso(11), owner: "psl" },
-  { id: "t-004", name: "Cardiff SME Trial", plan: "Trial", seats: { used: 2, limit: 3 }, renewsOn: iso(90), trialEndsOn: iso(9), owner: "reseller" },
-  { id: "t-005", name: "London SocialCare Group", plan: "Scale", seats: { used: 10, limit: 10 }, renewsOn: iso(-3), owner: "reseller" },
+  { id: "t-001", name: "BidSense Direct (owner)", plan: "Enterprise", seats: { used: 1, limit: 25 }, renewsOn: iso(365), owner: "owner" },
+  { id: "t-002", name: "DEMO — Reseller Client A", plan: "Growth", seats: { used: 4, limit: 5 }, renewsOn: iso(42), owner: "reseller" },
+  { id: "t-003", name: "DEMO — PSL Partner A", plan: "Scale", seats: { used: 9, limit: 10 }, renewsOn: iso(11), owner: "psl" },
+  { id: "t-004", name: "DEMO — SME Trial Client", plan: "Trial", seats: { used: 2, limit: 3 }, renewsOn: iso(90), trialEndsOn: iso(9), owner: "reseller" },
 ];
 
 function iso(daysFromNow: number): string {
@@ -57,6 +59,9 @@ function Licensing() {
 
   return (
     <div className="px-8 py-10 max-w-6xl mx-auto space-y-6">
+      <div className="rounded border border-amber-400/40 bg-amber-400/10 text-amber-400 text-xs px-4 py-2">
+        Demo data — these are illustrative tenants showing the seat and renewal structure. Replace with your real clients, or connect a database to manage tenants dynamically.
+      </div>
       <header className="space-y-1">
         <div className="text-xs uppercase tracking-[0.2em] text-gold">Tenant Licensing</div>
         <h1 className="text-3xl font-bold flex items-center gap-2">

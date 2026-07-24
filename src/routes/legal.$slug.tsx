@@ -10,6 +10,15 @@ export const Route = createFileRoute("/legal/$slug")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) return { meta: [] };
+    const faqJsonLd = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: loaderData.sections.map((s: { heading: string; body: string }) => ({
+        "@type": "Question",
+        name: s.heading,
+        acceptedAnswer: { "@type": "Answer", text: s.body },
+      })),
+    };
     return {
       meta: [
         { title: `${loaderData.title} — BidSense` },
@@ -17,10 +26,11 @@ export const Route = createFileRoute("/legal/$slug")({
         { property: "og:title", content: `${loaderData.title} — BidSense` },
         { property: "og:description", content: loaderData.intro },
         { property: "og:type", content: "article" },
-        { property: "og:url", content: `/legal/${loaderData.slug}` },
+        { property: "og:url", content: `https://bidsense.ai/legal/${loaderData.slug}` },
         { name: "twitter:card", content: "summary" },
       ],
-      links: [{ rel: "canonical", href: `/legal/${loaderData.slug}` }],
+      links: [{ rel: "canonical", href: `https://bidsense.ai/legal/${loaderData.slug}` }],
+      scripts: [{ type: "application/ld+json", children: JSON.stringify(faqJsonLd) }],
     };
   },
   notFoundComponent: () => <div className="text-sm">Policy not found.</div>,

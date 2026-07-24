@@ -34,13 +34,16 @@ interface Invoice {
   status: "paid" | "issued" | "overdue";
 }
 
+// ── Replace these rows with your real invoices. ──────────────────────────────
+// This is illustrative demo data showing the ledger structure and VAT schemes.
+// When you connect a database (e.g. Supabase), this array will be fetched live.
 const LEDGER: Invoice[] = [
-  { id: "BS-2026-0001", date: "2026-06-04", client: "Northgate Bid Advisory", netGBP: 4200, vatRate: 0.2, scheme: "Standard VAT", status: "paid" },
-  { id: "BS-2026-0002", date: "2026-06-11", client: "Merseyside Compliance PSL", netGBP: 9600, vatRate: 0.2, scheme: "Standard VAT", status: "paid" },
-  { id: "BS-2026-0003", date: "2026-06-24", client: "Cardiff SME Trial", netGBP: 350, vatRate: 0.2, scheme: "Standard VAT", status: "issued" },
-  { id: "BS-2026-0004", date: "2026-07-02", client: "EU Client — Rotterdam BV", netGBP: 5200, vatRate: 0, scheme: "Reverse charge", status: "paid" },
-  { id: "BS-2026-0005", date: "2026-07-08", client: "US Client — Atlas Corp", netGBP: 7800, vatRate: 0, scheme: "Zero-rated export", status: "issued" },
-  { id: "BS-2026-0006", date: "2026-07-15", client: "London SocialCare Group", netGBP: 12500, vatRate: 0.2, scheme: "Standard VAT", status: "overdue" },
+  { id: "BS-DEMO-0001", date: "2026-06-04", client: "DEMO — UK Reseller Client", netGBP: 4200, vatRate: 0.2, scheme: "Standard VAT", status: "paid" },
+  { id: "BS-DEMO-0002", date: "2026-06-11", client: "DEMO — PSL Partner Client", netGBP: 9600, vatRate: 0.2, scheme: "Standard VAT", status: "paid" },
+  { id: "BS-DEMO-0003", date: "2026-06-24", client: "DEMO — SME Trial Client", netGBP: 350, vatRate: 0.2, scheme: "Standard VAT", status: "issued" },
+  { id: "BS-DEMO-0004", date: "2026-07-02", client: "DEMO — EU Client (B2B reverse charge)", netGBP: 5200, vatRate: 0, scheme: "Reverse charge", status: "paid" },
+  { id: "BS-DEMO-0005", date: "2026-07-08", client: "DEMO — Export Client (zero-rated)", netGBP: 7800, vatRate: 0, scheme: "Zero-rated export", status: "issued" },
+  { id: "BS-DEMO-0006", date: "2026-07-15", client: "DEMO — Enterprise Client", netGBP: 12500, vatRate: 0.2, scheme: "Standard VAT", status: "overdue" },
 ];
 
 function fmt(n: number) {
@@ -94,6 +97,9 @@ function Finance() {
 
   return (
     <div className="px-8 py-10 max-w-6xl mx-auto space-y-6">
+      <div className="rounded border border-amber-400/40 bg-amber-400/10 text-amber-400 text-xs px-4 py-2">
+        Demo data — these are illustrative invoices showing the ledger structure and VAT schemes. Replace with your real invoices, or connect a database to populate this dynamically.
+      </div>
       <header className="flex items-start justify-between gap-4">
         <div className="space-y-1">
           <div className="text-xs uppercase tracking-[0.2em] text-gold">Owner-only</div>
