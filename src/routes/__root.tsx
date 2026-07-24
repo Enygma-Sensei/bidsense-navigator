@@ -111,19 +111,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "canonical", href: "/" },
     ],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          name: "BidSense",
-          description: "Compliance-first tender intelligence platform for UK public-sector SMEs, with adversarial peer-reviewed AI bidding, subcontractor-floor-protected pricing, and ISO-aligned governance.",
-          areaServed: "United Kingdom",
-          knowsAbout: ["ISO 27001", "ISO 9001", "ISO 14001", "ISO 45001", "ISO 27017", "ISO 27018", "ISO 20000", "ISO 22301", "ISO 27005", "ISO 30414", "GDPR", "Procurement Act 2023", "Cyber Essentials Plus"],
-        }),
-      },
-    ],
+    scripts: [],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -131,11 +119,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+const ORG_JSON_LD = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "BidSense",
+  description: "Compliance-first tender intelligence platform for UK public-sector SMEs, with adversarial peer-reviewed AI bidding, subcontractor-floor-protected pricing, and ISO-aligned governance.",
+  areaServed: "United Kingdom",
+  knowsAbout: ["ISO 27001","ISO 9001","ISO 14001","ISO 45001","ISO 27017","ISO 27018","ISO 20000","ISO 22301","ISO 27005","ISO 30414","GDPR","Procurement Act 2023","Cyber Essentials Plus"],
+});
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
         <HeadContent />
+        <script
+          type="application/ld+json"
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{ __html: ORG_JSON_LD }}
+        />
       </head>
       <body>
         {children}

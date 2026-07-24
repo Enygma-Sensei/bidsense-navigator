@@ -28,7 +28,7 @@ import type { LanguageModelV1 } from "ai";
 function openRouterProvider(key: string, suffix = "") {
   return {
     label: `OpenRouter${suffix}`,
-    model: process.env.OPENROUTER_MODEL ?? "google/gemini-2.0-flash-exp:free",
+    model: process.env.OPENROUTER_MODEL ?? "mistralai/mistral-7b-instruct:free",
     client: createOpenAICompatible({
       name: `openrouter${suffix.toLowerCase()}`,
       baseURL: "https://openrouter.ai/api/v1",
