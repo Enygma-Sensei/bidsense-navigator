@@ -34,7 +34,7 @@ function openRouterProvider(key: string, suffix = "") {
       baseURL: "https://openrouter.ai/api/v1",
       headers: {
         Authorization: `Bearer ${key}`,
-        "HTTP-Referer": "https://bidsense.ai",
+        "HTTP-Referer": "https://bidsense.co.uk",
         "X-Title": "BidSense",
       },
     }),

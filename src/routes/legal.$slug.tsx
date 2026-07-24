@@ -26,10 +26,10 @@ export const Route = createFileRoute("/legal/$slug")({
         { property: "og:title", content: `${loaderData.title} — BidSense` },
         { property: "og:description", content: loaderData.intro },
         { property: "og:type", content: "article" },
-        { property: "og:url", content: `https://bidsense.ai/legal/${loaderData.slug}` },
+        { property: "og:url", content: `/legal/${loaderData.slug}` },
         { name: "twitter:card", content: "summary" },
       ],
-      links: [{ rel: "canonical", href: `https://bidsense.ai/legal/${loaderData.slug}` }],
+      links: [{ rel: "canonical", href: `/legal/${loaderData.slug}` }],
       scripts: [{ type: "application/ld+json", children: JSON.stringify(faqJsonLd) }],
     };
   },

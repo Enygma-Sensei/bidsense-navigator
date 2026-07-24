@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-const BASE_URL = "https://bidsense.ai";
+// TODO: Set this to your real domain once you have one registered.
+// e.g. "https://yourdomain.co.uk"
+const BASE_URL = "";
 
 interface Entry {
   path: string;
